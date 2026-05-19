@@ -139,6 +139,11 @@ header{
 .promo-hero p{
   font-size:.97rem;margin-bottom:22px;
   position:relative;z-index:2;
+  color:black;
+}
+.promo-hero .promo-sub{
+  color:black !important;
+  font-weight:800;
 }
 .promo-hero .btn{
   background:black;color:white;
@@ -313,6 +318,36 @@ footer p{color:var(--gray);margin-bottom:15px;}
   0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}
 }
 
+/* SCHEDULE */
+.schedule-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  margin-bottom:30px;
+}
+.schedule-card{
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));
+  border:1px solid rgba(255,208,0,.18);
+  border-radius:26px;
+  padding:36px 28px;
+  text-align:center;
+  transition:.35s;
+}
+.schedule-card:hover{transform:translateY(-6px);border-color:rgba(255,208,0,.35);}
+.schedule-card--sat{border-color:rgba(255,208,0,.12);}
+.schedule-card--closed{border-color:rgba(255,255,255,.07);opacity:.55;}
+.schedule-icon{
+  width:56px;height:56px;border-radius:50%;
+  background:rgba(255,208,0,.08);border:1px solid rgba(255,208,0,.15);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 18px;font-size:1.3rem;color:var(--yellow);
+}
+.schedule-day{font-size:1rem;font-weight:800;letter-spacing:.5px;margin-bottom:10px;}
+.schedule-time{font-size:1.5rem;font-weight:900;letter-spacing:-1px;color:var(--yellow);}
+.schedule-sep{color:rgba(255,208,0,.4);margin:0 4px;}
+.schedule-closed{color:var(--gray);font-size:1.2rem;}
+.schedule-note{text-align:center;color:var(--gray);font-size:.9rem;margin-top:10px;}
+
 /* ANIMATIONS */
 .reveal{opacity:0;transform:translateY(40px);transition:1s ease;}
 .reveal.active{opacity:1;transform:translateY(0);}
@@ -373,6 +408,11 @@ footer p{color:var(--gray);margin-bottom:15px;}
       <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> Samsung</div>
       <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> Motorola</div>
       <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> Xiaomi</div>
+      <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> LG</div>
+      <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> Huawei</div>
+      <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> Sony</div>
+      <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> Nokia</div>
+      <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> ZTE</div>
     </div>
 
     <div class="hero-buttons" style="margin-top:40px;">
@@ -405,7 +445,7 @@ footer p{color:var(--gray);margin-bottom:15px;}
     <h2 class="section-title reveal">¿Qué reparamos?</h2>
     <div class="section-line reveal"></div>
     <p class="section-description reveal">
-      Trabajamos con <strong>iPhone, Samsung, Motorola, Xiaomi</strong> y todas las marcas del mercado. Si tu equipo tiene un problema, lo solucionamos.
+      Trabajamos con <strong>iPhone, Samsung, Motorola, Xiaomi, LG, Huawei, Sony, Nokia, ZTE</strong> y todas las marcas del mercado. Si tu equipo tiene un problema, lo solucionamos.
     </p>
 
     <div class="services-grid">
@@ -578,6 +618,12 @@ footer p{color:var(--gray);margin-bottom:15px;}
         </div>
       </div>
 
+    </div>
+
+    <p style="text-align:center;margin-top:32px;color:var(--gray);font-size:.88rem;">
+      <i class="fa-solid fa-circle-info" style="color:var(--yellow);"></i>
+      &nbsp;Estas reseñas provienen de clientes reales de Google Maps y WhatsApp.
+    </p>
 
   </div>
 </section>
@@ -644,6 +690,36 @@ footer p{color:var(--gray);margin-bottom:15px;}
 
     </div>
 
+  </div>
+</section>
+
+<!-- HORARIO -->
+<section>
+  <div class="container">
+    <div class="section-tag reveal">Horario de atención</div>
+    <h2 class="section-title reveal">¿Cuándo <span style="color:var(--yellow)">estamos?</span></h2>
+    <div class="section-line reveal"></div>
+    <div class="schedule-grid reveal">
+      <div class="schedule-card">
+        <div class="schedule-icon"><i class="fa-solid fa-briefcase"></i></div>
+        <div class="schedule-day">Lunes a Viernes</div>
+        <div class="schedule-time">08:00 <span class="schedule-sep">—</span> 21:00 hs</div>
+      </div>
+      <div class="schedule-card schedule-card--sat">
+        <div class="schedule-icon"><i class="fa-solid fa-mug-hot"></i></div>
+        <div class="schedule-day">Sábados</div>
+        <div class="schedule-time">08:00 <span class="schedule-sep">—</span> 14:00 hs</div>
+      </div>
+      <div class="schedule-card schedule-card--closed">
+        <div class="schedule-icon"><i class="fa-solid fa-moon"></i></div>
+        <div class="schedule-day">Domingos</div>
+        <div class="schedule-time schedule-closed">Cerrado</div>
+      </div>
+    </div>
+    <p class="schedule-note reveal">
+      <i class="fa-brands fa-whatsapp" style="color:#25D366"></i>
+      &nbsp;¿Tenés una urgencia? Escribinos por WhatsApp y te respondemos.
+    </p>
   </div>
 </section>
 
