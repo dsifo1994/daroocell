@@ -157,39 +157,52 @@ header{
 /* PROMO INLINE (hero) */
 .promo-hero{
   margin-top:50px;
-  background:linear-gradient(135deg,#FFD000,#ffbe00);
+  background:linear-gradient(135deg,#6C27FF 0%,#3B82F6 60%,#06B6D4 100%);
   border-radius:26px;
-  padding:36px 40px;
-  color:black;
+  padding:44px 40px;
+  color:white;
   position:relative;
   overflow:hidden;
   text-align:center;
+  box-shadow:0 8px 48px rgba(108,39,255,.35);
+  border:1px solid rgba(255,255,255,.1);
 }
 .promo-hero::before{
-  content:'';position:absolute;width:280px;height:280px;
-  border-radius:50%;background:rgba(255,255,255,.15);
-  top:-140px;right:-80px;
+  content:'';position:absolute;width:350px;height:350px;
+  border-radius:50%;
+  background:rgba(255,255,255,.07);
+  top:-160px;right:-100px;
+}
+.promo-hero::after{
+  content:'';position:absolute;width:200px;height:200px;
+  border-radius:50%;
+  background:rgba(255,255,255,.05);
+  bottom:-80px;left:-60px;
 }
 .promo-hero h2{
   font-size:clamp(1.8rem,4vw,3rem);font-weight:900;
   line-height:1;margin-bottom:10px;position:relative;z-index:2;
+  color:white;
 }
 .promo-hero .promo-sub{
-  font-size:1rem;font-weight:700;margin-bottom:6px;
-  position:relative;z-index:2;opacity:.75;
+  font-size:1rem;font-weight:800;margin-bottom:10px;
+  position:relative;z-index:2;
+  color:var(--yellow) !important;
+  opacity:1;
 }
 .promo-hero p{
-  font-size:.97rem;margin-bottom:22px;
+  font-size:.97rem;margin-bottom:26px;
   position:relative;z-index:2;
-  color:black;
-}
-.promo-hero .promo-sub{
-  color:black !important;
-  font-weight:800;
+  color:rgba(255,255,255,.85);
 }
 .promo-hero .btn{
-  background:black;color:white;
+  background:var(--yellow);color:black;font-weight:900;
   position:relative;z-index:2;
+  box-shadow:0 4px 20px rgba(255,208,0,.35);
+}
+.promo-hero .btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 32px rgba(255,208,0,.5);
 }
 
 /* TITLES */
@@ -336,15 +349,95 @@ header{
 .faq-item.open .faq-answer{max-height:200px;padding:0 28px 22px;}
 
 /* FOOTER */
-footer{padding:60px 7%;border-top:1px solid rgba(255,208,0,.08);text-align:center;}
-.footer-logo{font-size:2.5rem;font-weight:900;margin-bottom:18px;}
-.footer-logo span{color:var(--yellow);}
-footer p{color:var(--gray);margin-bottom:15px;}
-.footer-links{
-  display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:20px;
+footer{
+  padding:70px 7% 0;
+  border-top:1px solid rgba(255,208,0,.12);
+  background:rgba(255,255,255,.015);
 }
-.footer-links a{text-decoration:none;color:white;transition:.3s;}
-.footer-links a:hover{color:var(--yellow);}
+.footer-inner{
+  max-width:700px;
+  margin:0 auto;
+  text-align:center;
+  padding-bottom:50px;
+}
+.footer-logo{font-size:2.4rem;font-weight:900;margin-bottom:14px;display:block;}
+.footer-logo span{color:var(--yellow);}
+.footer-desc{color:var(--gray);line-height:1.8;font-size:.97rem;margin-bottom:10px;}
+.footer-location{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,208,0,.06);border:1px solid rgba(255,208,0,.15);
+  border-radius:50px;padding:8px 18px;
+  font-size:.82rem;font-weight:700;color:var(--yellow);letter-spacing:1px;
+  margin-bottom:40px;
+}
+.footer-divider{
+  width:60px;height:3px;background:var(--yellow);
+  margin:0 auto 36px;border-radius:4px;
+}
+.footer-social{
+  display:flex;justify-content:center;gap:16px;
+  flex-wrap:wrap;margin-bottom:36px;
+}
+.footer-social-btn{
+  display:flex;align-items:center;gap:12px;
+  text-decoration:none;
+  padding:14px 24px;
+  border-radius:16px;
+  font-weight:700;font-size:.97rem;
+  transition:.35s;
+  border:1px solid transparent;
+  min-width:200px;
+}
+.footer-social-btn.ig{
+  background:rgba(214,36,159,.08);
+  border-color:rgba(214,36,159,.25);
+  color:white;
+}
+.footer-social-btn.ig:hover{background:rgba(214,36,159,.2);transform:translateY(-3px);}
+.footer-social-btn.wa{
+  background:rgba(37,211,102,.08);
+  border-color:rgba(37,211,102,.25);
+  color:white;
+}
+.footer-social-btn.wa:hover{background:rgba(37,211,102,.2);transform:translateY(-3px);}
+.footer-social-icon{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.15rem;flex-shrink:0;
+}
+.footer-social-icon.ig-icon{
+  background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);
+}
+.footer-social-icon.wa-icon{background:#25D366;}
+.footer-social-info{text-align:left;}
+.footer-social-label{font-size:.7rem;color:var(--gray);letter-spacing:1px;text-transform:uppercase;}
+.footer-social-handle{font-size:.97rem;font-weight:800;}
+.footer-hours{
+  display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
+  margin-bottom:40px;
+}
+.footer-hour-pill{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,208,0,.12);
+  border-radius:14px;padding:12px 20px;text-align:center;
+  min-width:160px;
+}
+.footer-hour-day{font-size:.78rem;color:var(--gray);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
+.footer-hour-time{font-size:.95rem;font-weight:800;color:white;}
+.footer-hour-time.closed{color:rgba(255,255,255,.25);}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.06);
+  padding:20px 0;
+  text-align:center;
+}
+.footer-copy{color:rgba(255,255,255,.3);font-size:.82rem;}
+.footer-copy span{color:var(--yellow);}
+
+@media(max-width:600px){
+  .footer-social{flex-direction:column;align-items:center;}
+  .footer-social-btn{width:100%;max-width:320px;}
+  .footer-hours{flex-direction:column;align-items:center;}
+}
 
 /* WHATSAPP FLOAT */
 .whatsapp-float{
@@ -365,20 +458,29 @@ footer p{color:var(--gray);margin-bottom:15px;}
 .schedule-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
+  gap:24px;
   margin-bottom:30px;
 }
 .schedule-card{
-  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));
-  border:1px solid rgba(255,208,0,.18);
+  background:linear-gradient(160deg,rgba(255,208,0,.07),rgba(255,208,0,.02));
+  border:2px solid rgba(255,208,0,.35);
   border-radius:26px;
-  padding:36px 28px;
+  padding:40px 28px;
   text-align:center;
   transition:.35s;
+  box-shadow:0 4px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,208,0,.1);
 }
-.schedule-card:hover{transform:translateY(-6px);border-color:rgba(255,208,0,.35);}
-.schedule-card--sat{border-color:rgba(255,208,0,.12);}
-.schedule-card--closed{border-color:rgba(255,255,255,.07);opacity:.55;}
+.schedule-card:hover{transform:translateY(-7px);border-color:rgba(255,208,0,.7);box-shadow:0 8px 36px rgba(255,208,0,.15);}
+.schedule-card--sat{
+  background:linear-gradient(160deg,rgba(255,208,0,.05),rgba(255,208,0,.01));
+  border-color:rgba(255,208,0,.22);
+}
+.schedule-card--closed{
+  background:rgba(255,255,255,.02);
+  border:2px solid rgba(255,255,255,.1);
+  box-shadow:none;
+  opacity:.45;
+}
 .schedule-icon{
   width:56px;height:56px;border-radius:50%;
   background:rgba(255,208,0,.08);border:1px solid rgba(255,208,0,.15);
@@ -768,50 +870,4 @@ footer p{color:var(--gray);margin-bottom:15px;}
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo"><span>DAROO</span>CELL</div>
-  <p>Servicio Técnico de Celulares</p>
-  <p>Caballito - Buenos Aires</p>
-  <div class="footer-links">
-    <a href="https://instagram.com/daroocell">
-      <i class="fa-brands fa-instagram"></i> @daroocell
-    </a>
-    <a href="https://wa.me/5491162575047">
-      <i class="fa-brands fa-whatsapp"></i> 11-6257-5047
-    </a>
-  </div>
-</footer>
-
-<div class="float-group">
-  <div class="float-promo">20% OFF</div>
-  <a href="https://wa.me/5491162575047" class="whatsapp-float" target="_blank">
-    <i class="fa-brands fa-whatsapp"></i>
-  </a>
-</div>
-
-<script>
-// Reveal on scroll
-const reveals = document.querySelectorAll('.reveal');
-function revealOnScroll(){
-  reveals.forEach(el=>{
-    const top = el.getBoundingClientRect().top;
-    if(top < window.innerHeight - 100) el.classList.add('active');
-  });
-}
-window.addEventListener('scroll', revealOnScroll);
-revealOnScroll();
-
-// FAQ accordion
-document.querySelectorAll('.faq-question').forEach(q=>{
-  q.addEventListener('click',()=>{
-    const item = q.parentElement;
-    const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
-    if(!isOpen) item.classList.add('open');
-  });
-});
-</script>
-
-</body>
 </html>
