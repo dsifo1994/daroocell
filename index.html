@@ -870,4 +870,105 @@ footer{
   </div>
 </section>
 
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+
+    <!-- COL 1: Marca -->
+    <div class="footer-col">
+      <div class="footer-logo"><span>⚡ DAROO</span>CELL</div>
+      <p class="footer-desc">Servicio técnico de celulares en Caballito, Buenos Aires. Reparamos tu equipo con repuestos de calidad y garantía.</p>
+      <div class="footer-badge"><i class="fa-solid fa-location-dot"></i> Caballito, Buenos Aires</div>
+    </div>
+
+    <!-- COL 2: Links -->
+    <div class="footer-col">
+      <div class="footer-heading">Links rápidos</div>
+      <ul class="footer-nav">
+        <li><a href="#servicios"><i class="fa-solid fa-chevron-right"></i> Servicios</a></li>
+        <li><a href="#"><i class="fa-solid fa-chevron-right"></i> ¿Por qué elegirnos?</a></li>
+        <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Testimonios</a></li>
+        <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Preguntas frecuentes</a></li>
+        <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Horarios</a></li>
+      </ul>
+    </div>
+
+    <!-- COL 3: Redes + Horario -->
+    <div class="footer-col">
+      <div class="footer-heading">Contacto y redes</div>
+      <div class="footer-social">
+        <a href="https://instagram.com/daroocell" class="footer-social-btn ig" target="_blank">
+          <div class="footer-social-icon ig-icon">
+            <i class="fa-brands fa-instagram" style="color:white;font-size:1.15rem;"></i>
+          </div>
+          <div class="footer-social-info">
+            <div class="footer-social-label">Instagram</div>
+            <div class="footer-social-handle">@daroocell</div>
+          </div>
+        </a>
+        <a href="https://wa.me/5491162575047" class="footer-social-btn wa" target="_blank">
+          <div class="footer-social-icon wa-icon">
+            <i class="fa-brands fa-whatsapp" style="color:white;font-size:1.15rem;"></i>
+          </div>
+          <div class="footer-social-info">
+            <div class="footer-social-label">WhatsApp</div>
+            <div class="footer-social-handle">11-6257-5047</div>
+          </div>
+        </a>
+      </div>
+      <div class="footer-hours">
+        <div class="footer-hour-row">
+          <span class="footer-hour-day">Lun — Vie</span>
+          <span class="footer-hour-time">08:00 — 21:00 hs</span>
+        </div>
+        <div class="footer-hour-row">
+          <span class="footer-hour-day">Sábados</span>
+          <span class="footer-hour-time">08:00 — 14:00 hs</span>
+        </div>
+        <div class="footer-hour-row">
+          <span class="footer-hour-day">Domingos</span>
+          <span class="footer-hour-time closed">Cerrado</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 <span>DarooCell</span>. Todos los derechos reservados.</p>
+    <p class="footer-copy">Hecho con <span>♥</span> en Buenos Aires</p>
+  </div>
+</footer>
+
+<div class="float-group">
+  <div class="float-promo">20% OFF</div>
+  <a href="https://wa.me/5491162575047" class="whatsapp-float" target="_blank">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+</div>
+
+<script>
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+function revealOnScroll(){
+  reveals.forEach(el=>{
+    const top = el.getBoundingClientRect().top;
+    if(top < window.innerHeight - 100) el.classList.add('active');
+  });
+}
+window.addEventListener('scroll', revealOnScroll);
+revealOnScroll();
+
+// FAQ accordion
+document.querySelectorAll('.faq-question').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item = q.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!isOpen) item.classList.add('open');
+  });
+});
+</script>
+
+</body>
 </html>
