@@ -70,6 +70,58 @@ header{
 }
 .nav-ig:hover{transform:translateY(-3px);filter:drop-shadow(0 0 8px rgba(214,36,159,.5));}
 .nav-ig:hover{transform:translateY(-3px);box-shadow:0 0 20px rgba(214,36,159,.4);}
+
+/* HAMBURGER MENU */
+.nav-right{display:flex;align-items:center;gap:16px;}
+.hamburger{
+  width:44px;height:44px;border-radius:12px;
+  background:rgba(255,208,0,.06);
+  border:1px solid rgba(255,208,0,.2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  cursor:pointer;transition:.3s;
+  flex-shrink:0;
+}
+.hamburger:hover{background:rgba(255,208,0,.12);border-color:rgba(255,208,0,.4);}
+.hamburger span{
+  display:block;width:20px;height:2px;
+  background:var(--yellow);border-radius:2px;
+  transition:.35s;transform-origin:center;
+}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.nav-dropdown{
+  position:fixed;
+  top:75px;
+  left:7%;
+  background:rgba(10,10,10,.97);
+  border:1px solid rgba(255,208,0,.18);
+  border-radius:20px;
+  padding:10px;
+  min-width:230px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  backdrop-filter:blur(20px);
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(-10px);
+  transition:.3s ease;
+  z-index:998;
+}
+.nav-dropdown.open{opacity:1;pointer-events:all;transform:translateY(0);}
+.nav-dropdown a{
+  display:flex;align-items:center;gap:12px;
+  padding:13px 16px;
+  text-decoration:none;color:rgba(255,255,255,.85);
+  font-size:.97rem;font-weight:600;
+  border-radius:12px;
+  transition:.25s;
+}
+.nav-dropdown a i{
+  width:20px;text-align:center;
+  color:var(--yellow);font-size:.9rem;
+}
+.nav-dropdown a:hover{background:rgba(255,208,0,.08);color:white;padding-left:22px;}
+.nav-sep{height:1px;background:rgba(255,255,255,.06);margin:6px 10px;}
 .nav-wa{background:#25D366;color:white;}
 .nav-wa:hover{transform:translateY(-3px);box-shadow:0 0 20px rgba(37,211,102,.4);}
 
@@ -81,17 +133,20 @@ header{
   flex-direction:row;
 }
 .float-promo{
-  background:#25D366;
-  color:white;
+  background:var(--yellow);
+  color:black;
   font-weight:900;
   font-size:.88rem;
   letter-spacing:1px;
   padding:10px 18px;
   border-radius:50px;
-  box-shadow:0 4px 20px rgba(37,211,102,.5);
+  box-shadow:0 4px 20px rgba(255,208,0,.4);
   white-space:nowrap;
   order:1;
+  text-decoration:none;
+  cursor:pointer;
 }
+.float-promo:hover{transform:scale(1.05);box-shadow:0 6px 28px rgba(255,208,0,.6);}
 
 /* HERO */
 .hero{
@@ -245,6 +300,30 @@ header{
 .service-icon i{font-size:1.4rem;color:var(--yellow);}
 .service-card h3{font-size:1.4rem;font-weight:800;margin-bottom:14px;}
 .service-card p{font-size:1rem;line-height:1.8;color:var(--gray);}
+
+/* BENEFITS GRID */
+.benefits-grid-cols{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:22px;
+}
+.benefit-card{
+  display:flex;
+  gap:20px;
+  align-items:flex-start;
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
+  border:1px solid rgba(255,208,0,.12);
+  border-radius:22px;
+  padding:28px;
+  transition:.35s;
+}
+.benefit-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(255,208,0,.28);
+}
+@media(max-width:700px){
+  .benefits-grid-cols{grid-template-columns:1fr;}
+}
 
 /* BENEFITS */
 .benefits-wrapper{display:grid;grid-template-columns:1fr;gap:20px;}
@@ -442,10 +521,10 @@ footer{
 /* WHATSAPP FLOAT */
 .whatsapp-float{
   width:62px;height:62px;border-radius:50%;
-  background:#25D366;color:white;
+  background:var(--yellow);color:black;
   display:flex;align-items:center;justify-content:center;
   font-size:1.6rem;text-decoration:none;
-  box-shadow:0 0 30px rgba(37,211,102,.35);
+  box-shadow:0 0 30px rgba(255,208,0,.4);
   animation:pulse 2s infinite;
   order:2;
   flex-shrink:0;
@@ -530,12 +609,24 @@ footer{
 
 <header>
   <div class="navbar">
-    <a href="#" class="logo"><span>⚡ DAROO</span> CELL</a>
-    <div class="nav-social">
-      <a href="https://instagram.com/daroocell" class="nav-ig" target="_blank" title="Instagram">
-        <i class="fa-brands fa-instagram"></i>
-      </a>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
     </div>
+    <a href="#" class="logo"><span>⚡ DAROO</span> CELL</a>
+    <a href="https://instagram.com/daroocell" class="nav-ig" target="_blank" title="Instagram">
+      <i class="fa-brands fa-instagram"></i>
+    </a>
+  </div>
+  <div class="nav-dropdown" id="navDropdown">
+    <a href="#servicios"><i class="fa-solid fa-mobile-screen"></i> Servicios</a>
+    <a href="#por-que-elegirnos"><i class="fa-solid fa-shield-halved"></i> ¿Por qué elegirnos?</a>
+    <div class="nav-sep"></div>
+    <a href="#testimonios"><i class="fa-solid fa-star"></i> Testimonios</a>
+    <a href="#faq"><i class="fa-solid fa-circle-question"></i> Preguntas frecuentes</a>
+    <div class="nav-sep"></div>
+    <a href="#horarios"><i class="fa-solid fa-clock"></i> Horarios</a>
+    <div class="nav-sep"></div>
+    <a href="https://wa.me/5491162575047" target="_blank" style="color:var(--yellow);"><i class="fa-brands fa-whatsapp" style="color:var(--yellow);"></i> Contactar por WhatsApp</a>
   </div>
 </header>
 
@@ -563,9 +654,6 @@ footer{
     </div>
 
     <div class="hero-buttons" style="margin-top:40px;">
-      <a href="https://wa.me/5491162575047" class="btn btn-primary">
-        <i class="fa-brands fa-whatsapp" style="color:#25D366;"></i> Escribinos por WhatsApp
-      </a>
       <a href="#servicios" class="btn btn-secondary">Ver servicios →</a>
     </div>
 
@@ -632,35 +720,39 @@ footer{
 </section>
 
 <!-- BENEFITS -->
-<section>
-  <div class="container benefits-wrapper">
-    <div>
-      <div class="section-tag reveal">Por qué elegirnos</div>
-      <h2 class="section-title reveal">Tu celular en buenas manos.</h2>
-      <div class="section-line reveal"></div>
+<section id="por-que-elegirnos">
+  <div class="container">
+    <div class="section-tag reveal">Por qué elegirnos</div>
+    <h2 class="section-title reveal">Tu celular en buenas manos.</h2>
+    <div class="section-line reveal"></div>
 
-      <div class="benefit-item reveal">
+    <div class="benefits-grid-cols reveal">
+
+      <div class="benefit-card">
         <div class="benefit-icon"><i class="fa-solid fa-bolt"></i></div>
         <div class="benefit-content">
           <h3>Diagnóstico rápido</h3>
           <p>Evaluamos tu equipo sin costo y con total transparencia.</p>
         </div>
       </div>
-      <div class="benefit-item reveal">
+
+      <div class="benefit-card">
         <div class="benefit-icon"><i class="fa-solid fa-handshake"></i></div>
         <div class="benefit-content">
           <h3>Atención personalizada</h3>
           <p>Te acompañamos durante todo el proceso.</p>
         </div>
       </div>
-      <div class="benefit-item reveal">
+
+      <div class="benefit-card">
         <div class="benefit-icon"><i class="fa-solid fa-square-check"></i></div>
         <div class="benefit-content">
           <h3>Repuestos de calidad</h3>
           <p>Trabajamos con componentes seleccionados y probados.</p>
         </div>
       </div>
-      <div class="benefit-item reveal">
+
+      <div class="benefit-card">
         <div class="benefit-icon"><i class="fa-solid fa-shield"></i></div>
         <div class="benefit-content">
           <h3>Garantía en reparaciones</h3>
@@ -673,7 +765,7 @@ footer{
 </section>
 
 <!-- TESTIMONIOS / REVIEWS -->
-<section>
+<section id="testimonios">
   <div class="container">
 
     <div class="section-tag reveal">Testimonios</div>
@@ -776,7 +868,7 @@ footer{
 </section>
 
 <!-- FAQ -->
-<section>
+<section id="faq">
   <div class="container">
 
     <div class="section-tag reveal">Preguntas frecuentes</div>
@@ -841,7 +933,7 @@ footer{
 </section>
 
 <!-- HORARIO -->
-<section>
+<section id="horarios">
   <div class="container">
     <div class="section-tag reveal">Horario de atención</div>
     <h2 class="section-title reveal">¿Cuándo <span style="color:var(--yellow)">estamos?</span></h2>
@@ -872,63 +964,47 @@ footer{
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-grid">
+  <div class="footer-inner">
 
-    <!-- COL 1: Marca -->
-    <div class="footer-col">
-      <div class="footer-logo"><span>⚡ DAROO</span>CELL</div>
-      <p class="footer-desc">Servicio técnico de celulares en Caballito, Buenos Aires. Reparamos tu equipo con repuestos de calidad y garantía.</p>
-      <div class="footer-badge"><i class="fa-solid fa-location-dot"></i> Caballito, Buenos Aires</div>
+    <div class="footer-logo"><span>⚡ DAROO</span>CELL</div>
+    <p class="footer-desc">Servicio técnico de celulares en Caballito, Buenos Aires.<br>Reparamos tu equipo con repuestos de calidad y garantía.</p>
+    <div class="footer-location"><i class="fa-solid fa-location-dot"></i> Caballito, Buenos Aires</div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-social">
+      <a href="https://instagram.com/daroocell" class="footer-social-btn ig" target="_blank">
+        <div class="footer-social-icon ig-icon">
+          <i class="fa-brands fa-instagram" style="color:white;font-size:1.15rem;"></i>
+        </div>
+        <div class="footer-social-info">
+          <div class="footer-social-label">Instagram</div>
+          <div class="footer-social-handle">@daroocell</div>
+        </div>
+      </a>
+      <a href="https://wa.me/5491162575047" class="footer-social-btn wa" target="_blank">
+        <div class="footer-social-icon wa-icon">
+          <i class="fa-brands fa-whatsapp" style="color:white;font-size:1.15rem;"></i>
+        </div>
+        <div class="footer-social-info">
+          <div class="footer-social-label">WhatsApp</div>
+          <div class="footer-social-handle">11-6257-5047</div>
+        </div>
+      </a>
     </div>
 
-    <!-- COL 2: Links -->
-    <div class="footer-col">
-      <div class="footer-heading">Links rápidos</div>
-      <ul class="footer-nav">
-        <li><a href="#servicios"><i class="fa-solid fa-chevron-right"></i> Servicios</a></li>
-        <li><a href="#"><i class="fa-solid fa-chevron-right"></i> ¿Por qué elegirnos?</a></li>
-        <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Testimonios</a></li>
-        <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Preguntas frecuentes</a></li>
-        <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Horarios</a></li>
-      </ul>
-    </div>
-
-    <!-- COL 3: Redes + Horario -->
-    <div class="footer-col">
-      <div class="footer-heading">Contacto y redes</div>
-      <div class="footer-social">
-        <a href="https://instagram.com/daroocell" class="footer-social-btn ig" target="_blank">
-          <div class="footer-social-icon ig-icon">
-            <i class="fa-brands fa-instagram" style="color:white;font-size:1.15rem;"></i>
-          </div>
-          <div class="footer-social-info">
-            <div class="footer-social-label">Instagram</div>
-            <div class="footer-social-handle">@daroocell</div>
-          </div>
-        </a>
-        <a href="https://wa.me/5491162575047" class="footer-social-btn wa" target="_blank">
-          <div class="footer-social-icon wa-icon">
-            <i class="fa-brands fa-whatsapp" style="color:white;font-size:1.15rem;"></i>
-          </div>
-          <div class="footer-social-info">
-            <div class="footer-social-label">WhatsApp</div>
-            <div class="footer-social-handle">11-6257-5047</div>
-          </div>
-        </a>
+    <div class="footer-hours">
+      <div class="footer-hour-pill">
+        <div class="footer-hour-day">Lun — Vie</div>
+        <div class="footer-hour-time">08:00 — 21:00 hs</div>
       </div>
-      <div class="footer-hours">
-        <div class="footer-hour-row">
-          <span class="footer-hour-day">Lun — Vie</span>
-          <span class="footer-hour-time">08:00 — 21:00 hs</span>
-        </div>
-        <div class="footer-hour-row">
-          <span class="footer-hour-day">Sábados</span>
-          <span class="footer-hour-time">08:00 — 14:00 hs</span>
-        </div>
-        <div class="footer-hour-row">
-          <span class="footer-hour-day">Domingos</span>
-          <span class="footer-hour-time closed">Cerrado</span>
-        </div>
+      <div class="footer-hour-pill">
+        <div class="footer-hour-day">Sábados</div>
+        <div class="footer-hour-time">08:00 — 14:00 hs</div>
+      </div>
+      <div class="footer-hour-pill">
+        <div class="footer-hour-day">Domingos</div>
+        <div class="footer-hour-time closed">Cerrado</div>
       </div>
     </div>
 
@@ -936,18 +1012,43 @@ footer{
 
   <div class="footer-bottom">
     <p class="footer-copy">© 2025 <span>DarooCell</span>. Todos los derechos reservados.</p>
-    <p class="footer-copy">Hecho con <span>♥</span> en Buenos Aires</p>
   </div>
 </footer>
 
 <div class="float-group">
-  <div class="float-promo">20% OFF</div>
+  <a href="https://wa.me/5491162575047" class="float-promo" target="_blank">20% OFF</a>
   <a href="https://wa.me/5491162575047" class="whatsapp-float" target="_blank">
     <i class="fa-brands fa-whatsapp"></i>
   </a>
 </div>
 
 <script>
+// Hamburger menu
+const hamburger = document.getElementById('hamburger');
+const navDropdown = document.getElementById('navDropdown');
+hamburger.addEventListener('click',(e)=>{
+  e.stopPropagation();
+  hamburger.classList.toggle('open');
+  navDropdown.classList.toggle('open');
+});
+document.addEventListener('click',()=>{
+  hamburger.classList.remove('open');
+  navDropdown.classList.remove('open');
+});
+navDropdown.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',(e)=>{
+    e.preventDefault();
+    hamburger.classList.remove('open');
+    navDropdown.classList.remove('open');
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target){
+      const offset = 80;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({top, behavior:'smooth'});
+    }
+  });
+});
+
 // Reveal on scroll
 const reveals = document.querySelectorAll('.reveal');
 function revealOnScroll(){
