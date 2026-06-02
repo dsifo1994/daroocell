@@ -690,6 +690,120 @@ footer{padding:70px 7% 0;border-top:1px solid rgba(255,208,0,.12);background:rgb
   </div>
 </header>
 
+  <!-- MARQUESINA -->
+<style>
+  .marquee-wrapper {
+    width: 100%;
+    background: linear-gradient(135deg, #FFD000 0%, #f5c400 100%);
+    overflow: hidden;
+    padding: 11px 0;
+    position: relative;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 2px 12px rgba(255,208,0,0.35);
+    z-index: 998;
+  }
+  .marquee-wrapper::before,
+  .marquee-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 80px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .marquee-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, #FFD000, transparent);
+  }
+  .marquee-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, #f5c400, transparent);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: scroll-left 28s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+  @keyframes scroll-left {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    padding: 0 28px;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #050505;
+    text-decoration: none;
+  }
+  .marquee-item.clickable:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .marquee-sep {
+    color: rgba(0,0,0,0.25);
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 0 4px;
+  }
+</style>
+
+<div class="marquee-wrapper">
+  <div class="marquee-track" id="marqueeTrack"></div>
+</div>
+
+<script>
+(function(){
+  const items = [
+    { icon: "⚡", text: "20% OFF en tu primera reparación" },
+    { icon: "🛡️", text: "Garantía en cada reparación" },
+    { icon: "🔧", text: "Diagnóstico gratuito y sin compromiso" },
+    { icon: "📍", text: "Formosa 61, Caballito · Buenos Aires" },
+    { icon: "📱", text: "iPhone · Samsung · Motorola · Xiaomi" },
+    { icon: "✅", text: "Repuestos de calidad" },
+    { icon: "💬", text: "WhatsApp: 11-6257-5047", link: "https://wa.me/5491162575047" },
+    { icon: "🗓️", text: "Lun–Vie 8–21hs · Sáb 8–14hs" },
+  ];
+
+  const track = document.getElementById("marqueeTrack");
+
+  function buildItems() {
+    const frag = document.createDocumentFragment();
+    items.forEach(item => {
+      const tag = item.link ? "a" : "span";
+      const el = document.createElement(tag);
+      el.className = "marquee-item" + (item.link ? " clickable" : "");
+      if (item.link) {
+        el.href = item.link;
+        el.target = "_blank";
+        el.rel = "noopener";
+      }
+      el.innerHTML = `
+        <span>${item.icon}</span>
+        ${item.text}
+        <span class="marquee-sep">✦</span>
+      `;
+      frag.appendChild(el);
+    });
+    return frag;
+  }
+
+  track.appendChild(buildItems());
+  track.appendChild(buildItems());
+})();
+</script>
+
 <!-- HERO -->
 <section class="hero">
   <div class="container hero-content reveal">
