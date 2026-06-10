@@ -650,11 +650,11 @@ footer{padding:70px 7% 0;border-top:1px solid rgba(255,208,0,.12);background:rgb
 /* ── PROMO FLOTANTE (FLIP) ── */
 #promoFloat {
   position: fixed;
-  z-index: 10001; /* por encima del botón WA (9999) */
+  z-index: 10001;
   cursor: pointer;
   text-decoration: none;
   display: block;
-  /* posición default desktop: derecha, centrado vertical */
+  /* Desktop: derecha, centrado vertical real (sin contar marquesina+header ~107px) */
   right: 24px;
   top: 50%;
   transform: translateY(-50%);
@@ -665,13 +665,19 @@ footer{padding:70px 7% 0;border-top:1px solid rgba(255,208,0,.12);background:rgb
   border: 1px solid rgba(255,255,255,.15);
   padding: 20px 22px;
   color: white;
-  /* estado inicial: oculto (aparece al cargar) */
   opacity: 0;
   pointer-events: none;
-  /* la transición por defecto NO se usa durante el FLIP */
   transition: opacity .4s ease, box-shadow .3s;
   will-change: transform, opacity;
   overflow: hidden;
+}
+/* Empujar hacia abajo en desktop para no tapar hero buttons */
+@media (min-width: 769px) {
+  #promoFloat {
+    top: auto;
+    bottom: 120px;
+    transform: none;
+  }
 }
 #promoFloat::before {
   content: '';
@@ -1375,9 +1381,12 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 
   // Rectángulo "en reposo" del flotante (su posición fixed natural)
   function getFloatRestRect() {
-    // Quitamos temporalmente la transformación para obtener coordenadas limpias
     float.style.transition = 'none';
-    float.style.transform  = isMobile() ? 'none' : 'translateY(-50%)';
+    if (isMobile()) {
+      float.style.transform = 'none';
+    } else {
+      float.style.transform = 'none';
+    }
     const r = float.getBoundingClientRect();
     return r;
   }
@@ -1391,40 +1400,32 @@ document.querySelectorAll('.faq-question').forEach(q=>{
   function showFloat(animate) {
     if (!animate) {
       float.style.transition = 'none';
-      float.style.transform  = isMobile() ? 'none' : 'translateY(-50%)';
+      float.style.transform  = 'none';
       float.style.opacity    = '1';
-      float.style.width      = '';
-      float.style.borderRadius = '';
       float.classList.add('visible');
       return;
     }
-    // Animamos desde la posición del banner real → posición de reposo
     isAnimating = true;
     isDockedToReal = false;
 
     const realRect  = getRealRect();
-    const floatRect = getFloatRestRect(); // donde "debería" estar
+    const floatRect = getFloatRestRect();
 
-    // Delta: cuánto hay que desplazar para que empiece en el banner real
     const dx = realRect.left + realRect.width  / 2 - (floatRect.left + floatRect.width  / 2);
     const dy = realRect.top  + realRect.height / 2 - (floatRect.top  + floatRect.height / 2);
     const scaleX = realRect.width  / floatRect.width;
     const scaleY = realRect.height / floatRect.height;
 
-    // Posición inicial: coincide con el banner real
     float.style.transition = 'none';
     float.style.opacity    = '0';
-    float.style.transform  = isMobile()
-      ? `translate(${dx}px,${dy}px) scale(${scaleX},${scaleY})`
-      : `translateY(calc(-50% + ${dy}px)) translateX(${dx}px) scale(${scaleX},${scaleY})`;
-
+    float.style.transform  = `translate(${dx}px,${dy}px) scale(${scaleX},${scaleY})`;
     float.classList.add('visible');
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        float.style.transition = 'transform .55s cubic-bezier(.34,1.56,.64,1), opacity .35s ease, width .55s ease, border-radius .55s ease';
+        float.style.transition = 'transform .55s cubic-bezier(.34,1.56,.64,1), opacity .35s ease';
         float.style.opacity    = '1';
-        float.style.transform  = isMobile() ? 'none' : 'translateY(-50%)';
+        float.style.transform  = 'none';
         float.addEventListener('transitionend', () => { isAnimating = false; }, { once: true });
       });
     });
@@ -1434,11 +1435,10 @@ document.querySelectorAll('.faq-question').forEach(q=>{
     if (!animate) {
       float.style.transition = 'none';
       float.style.opacity    = '0';
-      float.style.transform  = isMobile() ? 'none' : 'translateY(-50%)';
+      float.style.transform  = 'none';
       float.classList.remove('visible');
       return;
     }
-    // Animamos desde posición de reposo → posición del banner real
     isAnimating = true;
     isDockedToReal = true;
 
@@ -1451,14 +1451,12 @@ document.querySelectorAll('.faq-question').forEach(q=>{
     const scaleY = realRect.height / floatRect.height;
 
     float.style.transition = 'transform .5s cubic-bezier(.4,0,.2,1), opacity .35s ease .15s';
-    float.style.transform  = isMobile()
-      ? `translate(${dx}px,${dy}px) scale(${scaleX},${scaleY})`
-      : `translateY(calc(-50% + ${dy}px)) translateX(${dx}px) scale(${scaleX},${scaleY})`;
+    float.style.transform  = `translate(${dx}px,${dy}px) scale(${scaleX},${scaleY})`;
     float.style.opacity    = '0';
 
     float.addEventListener('transitionend', () => {
       float.classList.remove('visible');
-      float.style.transform = isMobile() ? 'none' : 'translateY(-50%)';
+      float.style.transform = 'none';
       isAnimating = false;
     }, { once: true });
   }
