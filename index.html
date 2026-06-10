@@ -654,9 +654,9 @@ footer{padding:70px 7% 0;border-top:1px solid rgba(255,208,0,.12);background:rgb
   cursor: pointer;
   text-decoration: none;
   display: block;
-  /* Siempre abajo a la derecha, por encima del botón WA */
   right: 24px;
-  bottom: 100px;
+  /* Pegado justo encima del botón WA (height ~56px + bottom 24px = 80px) */
+  bottom: 88px;
   top: auto;
   transform: none;
   width: 270px;
@@ -671,18 +671,6 @@ footer{padding:70px 7% 0;border-top:1px solid rgba(255,208,0,.12);background:rgb
   transition: opacity .4s ease, box-shadow .3s;
   will-change: transform, opacity;
   overflow: hidden;
-}
-@media (min-width: 769px) {
-  #promoFloat {
-    bottom: 100px;
-    right: 24px;
-    width: 270px;
-    padding: 20px 22px;
-    border-radius: 20px;
-  }
-  .pf-title { font-size: .95rem; }
-  .pf-sub   { display: block; }
-  .pf-btn   { display: inline-flex; }
 }
 #promoFloat::before {
   content: '';
@@ -1497,22 +1485,27 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 })();
 // ══════════════════════════════════════════════════════
 
-// Igualar ancho del widget promo al botón WA en mobile
-function syncPromoWidth() {
+// Posicionar widget SIEMPRE pegado encima del botón WA
+function positionPromoFloat() {
   const waBtn = document.querySelector('.whatsapp-float-btn');
   const pf = document.getElementById('promoFloat');
   if (!waBtn || !pf) return;
+  const waRect = waBtn.getBoundingClientRect();
+  // bottom del widget = altura viewport - top del botón WA + 8px de separación
+  const bottomVal = window.innerHeight - waRect.top + 8;
+  pf.style.bottom = bottomVal + 'px';
+  // Mobile: mismo ancho que botón WA
   if (window.innerWidth <= 768) {
-    const waW = waBtn.getBoundingClientRect().width;
-    pf.style.width = waW + 'px';
-    pf.style.maxWidth = waW + 'px';
+    pf.style.width = waRect.width + 'px';
+    pf.style.maxWidth = waRect.width + 'px';
   } else {
-    pf.style.width = '';
+    pf.style.width = '270px';
     pf.style.maxWidth = '';
   }
 }
-setTimeout(syncPromoWidth, 900); // después de que aparece el flotante
-window.addEventListener('resize', syncPromoWidth);
+positionPromoFloat();
+window.addEventListener('resize', positionPromoFloat);
+window.addEventListener('scroll', positionPromoFloat);
 
 renderCards("todos");
 </script>
