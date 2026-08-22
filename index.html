@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script>
+  // Se ejecuta antes del render: si aplica la intro, bloqueamos el scroll YA
+  if(!sessionStorage.getItem('daroocellIntroSeen')){
+    document.documentElement.classList.add('intro-active');
+  }
+</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
@@ -338,6 +344,68 @@ footer{padding:70px 7% 0;border-top:1px solid rgba(255,208,0,.12);background:rgb
 .reveal{opacity:0;transform:translateY(40px);transition:1s ease;}
 .reveal.active{opacity:1;transform:translateY(0);}
 
+/* ══════ BRAND INTRO ══════ */
+html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
+
+#brandIntro{
+  position:fixed;inset:0;z-index:100000;
+  background:#050505;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .6s ease, visibility .6s ease;
+}
+#brandIntro.intro-hidden{opacity:0;visibility:hidden;pointer-events:none;}
+
+.intro-glow{
+  position:absolute;top:50%;left:50%;width:520px;height:520px;
+  transform:translate(-50%,-50%) scale(.6);
+  background:radial-gradient(circle,rgba(255,208,0,.16) 0%,rgba(255,208,0,0) 70%);
+  border-radius:50%;opacity:0;
+  transition:opacity 1.1s ease, transform 1.4s cubic-bezier(.16,1,.3,1);
+}
+#brandIntro.intro-glow-in .intro-glow{opacity:1;transform:translate(-50%,-50%) scale(1);}
+
+.intro-logo{
+  position:relative;width:120px;height:auto;opacity:0;
+  transform:translateY(14px) scale(.94);filter:blur(6px) drop-shadow(0 0 0 rgba(255,208,0,0));
+  transition:opacity .9s cubic-bezier(.16,1,.3,1),
+             transform 1s cubic-bezier(.16,1,.3,1),
+             filter .9s cubic-bezier(.16,1,.3,1);
+}
+@media(min-width:600px){.intro-logo{width:150px;}}
+
+#brandIntro.intro-logo-in .intro-logo{
+  opacity:1;transform:translateY(0) scale(1);
+  filter:blur(0) drop-shadow(0 0 22px rgba(255,208,0,.28));
+}
+
+/* brillo/reflejo sutil que cruza el logo una vez */
+.intro-logo::after{
+  content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);
+  transform:skewX(-20deg);opacity:0;
+}
+#brandIntro.intro-shine .intro-logo::after{
+  opacity:1;animation:introShine 1.1s ease forwards;
+}
+@keyframes introShine{
+  0%{left:-60%;opacity:0;}
+  15%{opacity:1;}
+  100%{left:130%;opacity:0;}
+}
+
+/* salida: logo sube y se desvanece */
+#brandIntro.intro-exit .intro-logo{
+  opacity:0;transform:translateY(-26px) scale(.97);filter:blur(4px);
+  transition:opacity .5s ease, transform .6s cubic-bezier(.4,0,1,1), filter .5s ease;
+}
+#brandIntro.intro-exit .intro-glow{opacity:0;transition:opacity .5s ease;}
+
+/* reduced motion: mostrar/ocultar casi sin animar */
+@media (prefers-reduced-motion: reduce){
+  #brandIntro,.intro-logo,.intro-glow{transition-duration:.15s !important;animation:none !important;}
+  .intro-logo{filter:none !important;}
+}
+
 /* ══════════════════════════════════════════
    SEGUIMIENTO — ESTILOS NUEVOS
 ══════════════════════════════════════════ */
@@ -537,6 +605,10 @@ footer{padding:70px 7% 0;border-top:1px solid rgba(255,208,0,.12);background:rgb
 </head>
 
 <body>
+<div id="brandIntro" aria-hidden="true">
+  <div class="intro-glow"></div>
+  <img src="assets/logo-daroocell.png" alt="" class="intro-logo" id="introLogoImg">
+</div>
 
 <!-- MARQUESINA -->
 <div class="marquee-wrapper" aria-hidden="true">
@@ -1223,6 +1295,53 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 })();
 
 renderCards('todos');
+
+/* ══════ BRAND INTRO — secuencia ══════ */
+(function(){
+  const intro=document.getElementById('brandIntro');
+  const html=document.documentElement;
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const seen=sessionStorage.getItem('daroocellIntroSeen');
+
+  function endIntro(){
+    html.classList.remove('intro-active');
+    intro.classList.add('intro-hidden');
+    sessionStorage.setItem('daroocellIntroSeen','1');
+    setTimeout(()=>{ if(intro&&intro.parentNode) intro.parentNode.removeChild(intro); },700);
+  }
+
+  if(!intro) return;
+
+  if(seen){
+    // ya la vio en esta sesión: la sacamos al toque, sin animar
+    intro.classList.add('intro-hidden');
+    html.classList.remove('intro-active');
+    setTimeout(()=>{ if(intro&&intro.parentNode) intro.parentNode.removeChild(intro); },50);
+    return;
+  }
+
+  if(reduced){
+    // reduced motion: mostramos el logo un instante fijo, sin efectos, y salimos
+    intro.classList.add('intro-glow-in','intro-logo-in');
+    setTimeout(()=>{
+      intro.classList.add('intro-exit');
+      setTimeout(endIntro,200);
+    },500);
+    return;
+  }
+
+  // secuencia normal (~2.4s total)
+  requestAnimationFrame(()=>{
+    setTimeout(()=>intro.classList.add('intro-glow-in'),80);        // 1. luz sutil
+    setTimeout(()=>intro.classList.add('intro-logo-in'),260);       // 2. logo fade-in
+    setTimeout(()=>intro.classList.add('intro-shine'),650);         // 3. brillo cruza el logo
+    setTimeout(()=>intro.classList.add('intro-exit'),1900);         // 4. logo sube y se desvanece
+    setTimeout(endIntro,2450);                                      // 5. entra la landing
+  });
+
+  // failsafe: si algo falla (imagen no carga, etc), nunca dejamos al usuario trabado
+  setTimeout(()=>{ if(!seen && html.classList.contains('intro-active')) endIntro(); },4000);
+})();
 </script>
 </body>
 </html>
