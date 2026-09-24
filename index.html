@@ -736,7 +736,7 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
           class="tracking-input"
           id="tracking-input"
           placeholder="Ej: DAR-X7K2M9"
-          maxlength="10"
+          maxlength="30"
           autocomplete="off"
           autocorrect="off"
           spellcheck="false"
@@ -1021,48 +1021,75 @@ function getTimelineIndex(estado) {
   return 0;
 }
 
-async function consultarTracking() {
-  const raw = document.getElementById('tracking-input').value.trim().toUpperCase();
-  // Limpiar: solo letras, números y guión
-  const code = raw.replace(/[^A-Z0-9\-]/g, '');
+// Normaliza lo que escribe/pega el cliente: acepta minúsculas, espacios,
+// comillas/backticks de WhatsApp, "DAR X7K2M9", "DARX7K2M9" o solo "X7K2M9".
+function normalizarCodigo(input) {
+  let s = String(input || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (s.length === 9 && s.startsWith('DAR')) s = s.slice(3);
+  if (s.length !== 6) return null;
+  return 'DAR-' + s;
+}
 
-  if (!code || code.length < 4) {
-    showTrackingError('Ingresá un código válido (ej: DAR-X7K2M9)');
+// Busca el código. 1º función segura get_tracking (RPC); si no existe, usa la vista public_tracking.
+async function fetchTracking(code) {
+  const headers = {
+    'apikey': SB_KEY,
+    'Authorization': 'Bearer ' + SB_KEY,
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+
+  try {
+    const r = await fetch(`${SB_URL}/rest/v1/rpc/get_tracking`, {
+      method: 'POST', headers, body: JSON.stringify({ p_code: code })
+    });
+    if (r.ok) {
+      const d = await r.json();
+      if (Array.isArray(d)) return d[0] || null;
+      return d || null;
+    }
+    console.warn('[tracking] RPC get_tracking respondió', r.status, await r.text());
+  } catch (e) {
+    console.warn('[tracking] RPC falló, pruebo con la vista', e);
+  }
+
+  const url = `${SB_URL}/rest/v1/public_tracking?tracking_code=eq.${encodeURIComponent(code)}&select=tracking_code,dispositivo,falla,estado,fecha,actualizado_en,historia`;
+  const res = await fetch(url, { headers });
+  if (!res.ok) {
+    console.error('[tracking] vista public_tracking respondió', res.status, await res.text());
+    throw new Error('HTTP ' + res.status);
+  }
+  const data = await res.json();
+  return (data && data[0]) || null;
+}
+
+async function consultarTracking() {
+  const input = document.getElementById('tracking-input');
+  const code = normalizarCodigo(input.value);
+
+  if (!code) {
+    showTrackingError('El código tiene el formato DAR-XXXXXX (6 letras o números después del guión). Ej: DAR-X7K2M9', 'Revisá el código');
     return;
   }
+  input.value = code;
 
   const btn = document.getElementById('tracking-btn');
   btn.disabled = true;
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Buscando…';
 
-  // Ocultar resultados previos
   document.getElementById('tracking-result').classList.remove('show');
   document.getElementById('tracking-error').classList.remove('show');
 
   try {
-    // Consulta SOLO la vista pública — no expone datos sensibles
-    const url = `${SB_URL}/rest/v1/public_tracking?tracking_code=eq.${encodeURIComponent(code)}&select=tracking_code,dispositivo,falla,estado,fecha,actualizado_en,historia`;
-    const res = await fetch(url, {
-      headers: {
-        'apikey': SB_KEY,
-        'Authorization': 'Bearer ' + SB_KEY,
-        'Accept': 'application/json'
-      }
-    });
-
-    if (!res.ok) throw new Error('Error de red');
-    const data = await res.json();
-
-    if (!data || data.length === 0) {
-      showTrackingError();
+    const row = await fetchTracking(code);
+    if (!row) {
+      showTrackingError(); // mensaje por defecto: código no encontrado
       return;
     }
-
-    renderTrackingResult(data[0]);
-
-  } catch(e) {
-    showTrackingError();
-    console.error(e);
+    renderTrackingResult(row);
+  } catch (e) {
+    console.error('[tracking]', e);
+    showTrackingError('No pudimos consultar el estado en este momento. Probá de nuevo en unos minutos o escribinos por WhatsApp.', 'Error de conexión');
   } finally {
     btn.disabled = false;
     btn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Consultar';
@@ -1127,9 +1154,10 @@ function renderTrackingResult(r) {
   }, 100);
 }
 
-function showTrackingError(msg) {
+function showTrackingError(msg, title) {
   const el = document.getElementById('tracking-error');
-  if (msg) el.querySelector('.tracking-error-sub').textContent = msg;
+  el.querySelector('.tracking-error-title').textContent = title || 'Código no encontrado';
+  el.querySelector('.tracking-error-sub').textContent = msg || 'Verificá que el código esté bien escrito. Si el problema continúa, escribinos por WhatsApp.';
   el.classList.add('show');
   document.getElementById('tracking-result').classList.remove('show');
 }
