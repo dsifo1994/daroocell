@@ -112,7 +112,7 @@
     { "@type": "Question", "name": "¿Hacen diagnóstico gratuito de celulares?", "acceptedAnswer": { "@type": "Answer", "text": "Sí, el diagnóstico es gratuito y sin compromiso. Revisamos tu equipo y te decimos qué tiene y cuánto sale arreglarlo antes de hacer nada." } },
     { "@type": "Question", "name": "¿Tienen garantía las reparaciones?", "acceptedAnswer": { "@type": "Answer", "text": "Sí. Todas nuestras reparaciones cuentan con garantía. Ante cualquier inconveniente relacionado con el trabajo realizado, lo resolvemos sin costo adicional." } },
     { "@type": "Question", "name": "¿Reparan iPhone y Samsung en Caballito?", "acceptedAnswer": { "@type": "Answer", "text": "Sí, trabajamos con iPhone, Samsung, Motorola, Xiaomi, LG, Huawei, Sony, Nokia, ZTE y la gran mayoría de modelos del mercado." } },
-    { "@type": "Question", "name": "¿Cuánto sale el cambio de pantalla?", "acceptedAnswer": { "@type": "Answer", "text": "Los precios arrancan desde $40.000 dependiendo del modelo y el tipo de repuesto. El diagnóstico es gratuito — traé el equipo y te damos el precio exacto sin compromiso." } }
+    { "@type": "Question", "name": "¿Cuánto sale el cambio de pantalla?", "acceptedAnswer": { "@type": "Answer", "text": "El precio depende del modelo y del tipo de repuesto. El diagnóstico es gratuito — traé el equipo y te damos el precio exacto sin compromiso." } }
   ]
 }
 </script>
@@ -125,8 +125,7 @@
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.daroocell.com.ar" },
     { "@type": "ListItem", "position": 2, "name": "Servicios", "item": "https://www.daroocell.com.ar#servicios" },
-    { "@type": "ListItem", "position": 3, "name": "Seguimiento", "item": "https://www.daroocell.com.ar#seguimiento" },
-    { "@type": "ListItem", "position": 4, "name": "Usados", "item": "https://www.daroocell.com.ar#usados" }
+    { "@type": "ListItem", "position": 3, "name": "Seguimiento", "item": "https://www.daroocell.com.ar#seguimiento" }
   ]
 }
 </script>
@@ -245,8 +244,6 @@ header{position:fixed;top:32px;left:0;width:100%;z-index:999;backdrop-filter:blu
 .service-icon i{font-size:1.4rem;color:var(--yellow);}
 .service-card h3{font-size:1.4rem;font-weight:800;margin-bottom:14px;}
 .service-card p{font-size:1rem;line-height:1.8;color:var(--gray);}
-.service-price{display:inline-flex;align-items:center;gap:6px;margin-top:16px;background:rgba(255,208,0,.07);border:1px solid rgba(255,208,0,.2);border-radius:50px;padding:6px 16px;font-size:.85rem;font-weight:800;color:var(--yellow);letter-spacing:.5px;}
-.service-price i{font-size:.75rem;}
 
 /* BENEFITS */
 .benefits-grid-cols{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
@@ -341,12 +338,6 @@ footer{padding:70px 7% 0;border-top:1px solid rgba(255,208,0,.12);background:rgb
 .whatsapp-float-label{white-space:nowrap;}
 @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
 
-/* VENDIDO overlay */
-.usado-card.vendido{pointer-events:auto;cursor:default;}
-.usado-card.vendido .usado-btn{pointer-events:none;opacity:.4;background:#888;box-shadow:none;}
-.usado-card.vendido:hover{transform:none;box-shadow:none;border-color:rgba(255,208,0,.12);}
-.usado-vendido-overlay{position:absolute;inset:0;background:rgba(10,10,10,.72);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;z-index:10;border-radius:0;}
-.usado-vendido-badge{background:rgba(20,0,0,.92);border:2.5px solid #e53935;border-radius:16px;padding:12px 28px;font-size:1.1rem;font-weight:900;letter-spacing:4px;text-transform:uppercase;color:#e53935;transform:rotate(-8deg);box-shadow:0 4px 24px rgba(229,57,53,.35);text-shadow:0 0 12px rgba(229,57,53,.4);}
 
 /* ANIMATIONS */
 .reveal{opacity:0;transform:translateY(40px);transition:1s ease;}
@@ -557,44 +548,6 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
 .tracking-error-title{font-size:1rem;font-weight:800;color:#f0544f;}
 .tracking-error-sub{font-size:.88rem;color:rgba(255,255,255,.45);margin-top:4px;}
 
-/* USADOS */
-.usados-filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:44px;}
-.filter-btn{padding:10px 22px;border-radius:50px;border:1px solid rgba(255,208,0,.2);background:rgba(255,208,0,.04);color:rgba(255,255,255,.75);font-size:.88rem;font-weight:700;cursor:pointer;transition:.25s;font-family:'Inter',sans-serif;letter-spacing:.5px;}
-.filter-btn:hover,.filter-btn.active{background:var(--yellow);color:black;border-color:var(--yellow);}
-.usados-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:22px;}
-.usado-card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));border:1px solid rgba(255,208,0,.12);border-radius:26px;overflow:hidden;transition:.35s;cursor:pointer;}
-.usado-card:hover{transform:translateY(-8px);border-color:rgba(255,208,0,.3);box-shadow:0 20px 60px rgba(0,0,0,.4);}
-.usado-img-wrap{position:relative;width:100%;height:260px;overflow:hidden;background:#0d0d0d;display:flex;align-items:center;justify-content:center;}
-.usado-img-wrap img{width:100%;height:100%;object-fit:contain;transition:.5s;padding:10px;}
-.usado-card:hover .usado-img-wrap img{transform:scale(1.04);}
-.usado-marca-badge{position:absolute;top:14px;left:14px;background:rgba(5,5,5,.85);border:1px solid rgba(255,208,0,.25);border-radius:50px;padding:5px 14px;font-size:.75rem;font-weight:800;color:var(--yellow);letter-spacing:1px;backdrop-filter:blur(8px);}
-.usado-info{padding:22px;}
-.usado-modelo{font-size:1.15rem;font-weight:800;margin-bottom:6px;line-height:1.3;}
-.usado-detalle{font-size:.88rem;color:var(--gray);margin-bottom:18px;line-height:1.6;}
-.usado-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.usado-precio{font-size:1.45rem;font-weight:900;color:var(--yellow);letter-spacing:-1px;}
-.usado-precio span{font-size:.8rem;font-weight:600;color:var(--gray);letter-spacing:0;}
-.usado-btn{padding:11px 20px;border-radius:14px;background:#25D366;color:white;font-weight:800;font-size:.88rem;text-decoration:none;display:flex;align-items:center;gap:8px;transition:.3s;white-space:nowrap;border:none;cursor:pointer;font-family:'Inter',sans-serif;}
-.usado-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.35);}
-.usados-empty{text-align:center;padding:60px 0;color:var(--gray);font-size:1rem;display:none;}
-.usados-empty i{font-size:2.5rem;color:rgba(255,208,0,.3);margin-bottom:16px;display:block;}
-/* Modal */
-.usado-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:.3s;}
-.usado-modal-overlay.open{opacity:1;pointer-events:all;}
-.usado-modal{background:#0d0d0d;border:1px solid rgba(255,208,0,.2);border-radius:28px;max-width:520px;width:100%;overflow:hidden;transform:translateY(20px);transition:.35s;max-height:90vh;overflow-y:auto;}
-.usado-modal-overlay.open .usado-modal{transform:translateY(0);}
-.usado-modal-img{width:100%;height:340px;object-fit:contain;background:#0d0d0d;padding:16px;}
-.usado-modal-body{padding:28px;}
-.usado-modal-marca{font-size:.78rem;font-weight:800;color:var(--yellow);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
-.usado-modal-modelo{font-size:1.6rem;font-weight:900;margin-bottom:12px;line-height:1.2;}
-.usado-modal-desc{font-size:.97rem;color:var(--gray);line-height:1.8;margin-bottom:24px;}
-.usado-modal-precio{font-size:2rem;font-weight:900;color:var(--yellow);margin-bottom:24px;}
-.usado-modal-precio span{font-size:1rem;color:var(--gray);font-weight:600;}
-.usado-modal-actions{display:flex;gap:12px;}
-.modal-btn-wa{flex:1;padding:16px;border-radius:16px;background:#25D366;color:white;font-weight:800;font-size:1rem;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:10px;transition:.3s;border:none;cursor:pointer;font-family:'Inter',sans-serif;}
-.modal-btn-wa:hover{box-shadow:0 8px 28px rgba(37,211,102,.4);transform:translateY(-2px);}
-.modal-btn-close{padding:16px 20px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:white;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:.3s;font-size:.95rem;}
-.modal-btn-close:hover{background:rgba(255,255,255,.1);}
 
 /* PROMO FLOTANTE */
 #promoFloat{position:fixed;z-index:10001;cursor:pointer;text-decoration:none;right:20px;bottom:100px;top:auto;transform:none;width:260px;border-radius:20px;background:linear-gradient(135deg,#6C27FF 0%,#3B82F6 60%,#06B6D4 100%);box-shadow:0 8px 40px rgba(108,39,255,.45);border:1px solid rgba(255,255,255,.15);padding:20px 22px;color:white;opacity:0;pointer-events:none;transition:opacity .4s ease,box-shadow .3s;overflow:hidden;display:block;}
@@ -606,8 +559,8 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
 @media(max-width:768px){#promoFloat{right:16px;bottom:90px;width:160px;padding:12px 14px;border-radius:16px;}.pf-title{font-size:.78rem;line-height:1.2;margin-bottom:4px;text-align:center;}.pf-sub{font-size:.67rem;text-align:center;line-height:1.3;}}
 
 /* ═══════════════════════════ RESPONSIVE ═══════════════════════════ */
-@media(max-width:980px){section{padding:80px 5%;}.navbar{padding:16px 5%;}.hero{padding-top:160px;padding-bottom:60px;min-height:auto;}.hero-buttons{flex-direction:column;align-items:center;gap:12px;}.btn{width:100%;max-width:380px;justify-content:center;}.promo-hero{padding:28px 24px;}.services-grid{grid-template-columns:repeat(2,1fr);}.testimonials-grid{grid-template-columns:1fr;}.usados-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:600px){.marquee-wrapper{height:28px;}.marquee-item{font-size:.68rem;padding:0 18px;letter-spacing:1px;}header{top:28px;}.nav-dropdown{top:103px;}section{padding:60px 5%;}.container{width:100%;}.navbar{padding:14px 5%;}.logo{font-size:1.35rem;}.nav-ig i{font-size:1.8rem;}.nav-dropdown{left:5%;right:5%;min-width:unset;}.hero{padding-top:140px;padding-bottom:50px;min-height:auto;}.hero-badge{font-size:.72rem;letter-spacing:2px;padding:10px 18px;}.hero h1{font-size:2.5rem;line-height:.95;letter-spacing:-1.5px;margin-bottom:20px;}.hero p{font-size:.97rem;margin-bottom:28px;}.btn{width:100%;max-width:100%;justify-content:center;padding:16px 20px;font-size:.97rem;border-radius:16px;}.promo-hero{padding:24px 18px;border-radius:20px;margin-top:32px;}.promo-hero h2{font-size:1.5rem;letter-spacing:0;}.section-tag{font-size:.75rem;letter-spacing:3px;}.section-title{font-size:2.1rem;letter-spacing:-1.5px;}.section-description{font-size:.95rem;margin-bottom:36px;}.brands-row{gap:10px;margin-bottom:32px;}.brand-pill{padding:7px 14px;font-size:.8rem;}.services-grid{grid-template-columns:1fr;gap:14px;}.service-card{padding:22px 20px;}.benefits-grid-cols{grid-template-columns:1fr;gap:14px;}.benefit-card{padding:20px;gap:14px;}.usados-grid{grid-template-columns:1fr;gap:16px;}.footer-social{flex-direction:column;align-items:center;gap:12px;}.footer-social-btn{width:100%;max-width:320px;justify-content:flex-start;}.footer-hours{flex-direction:column;align-items:center;gap:10px;}.footer-hour-pill{width:100%;max-width:280px;}.footer-logo{font-size:1.9rem;}.whatsapp-float-btn{padding:14px 18px;font-size:.95rem;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));}.tracking-input-row{flex-direction:column;}.tracking-btn{justify-content:center;}.tracking-box{padding:24px 18px;}.tl-label{font-size:.6rem;max-width:56px;}}
+@media(max-width:980px){section{padding:80px 5%;}.navbar{padding:16px 5%;}.hero{padding-top:160px;padding-bottom:60px;min-height:auto;}.hero-buttons{flex-direction:column;align-items:center;gap:12px;}.btn{width:100%;max-width:380px;justify-content:center;}.promo-hero{padding:28px 24px;}.services-grid{grid-template-columns:repeat(2,1fr);}.testimonials-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.marquee-wrapper{height:28px;}.marquee-item{font-size:.68rem;padding:0 18px;letter-spacing:1px;}header{top:28px;}.nav-dropdown{top:103px;}section{padding:60px 5%;}.container{width:100%;}.navbar{padding:14px 5%;}.logo{font-size:1.35rem;}.nav-ig i{font-size:1.8rem;}.nav-dropdown{left:5%;right:5%;min-width:unset;}.hero{padding-top:140px;padding-bottom:50px;min-height:auto;}.hero-badge{font-size:.72rem;letter-spacing:2px;padding:10px 18px;}.hero h1{font-size:2.5rem;line-height:.95;letter-spacing:-1.5px;margin-bottom:20px;}.hero p{font-size:.97rem;margin-bottom:28px;}.btn{width:100%;max-width:100%;justify-content:center;padding:16px 20px;font-size:.97rem;border-radius:16px;}.promo-hero{padding:24px 18px;border-radius:20px;margin-top:32px;}.promo-hero h2{font-size:1.5rem;letter-spacing:0;}.section-tag{font-size:.75rem;letter-spacing:3px;}.section-title{font-size:2.1rem;letter-spacing:-1.5px;}.section-description{font-size:.95rem;margin-bottom:36px;}.brands-row{gap:10px;margin-bottom:32px;}.brand-pill{padding:7px 14px;font-size:.8rem;}.services-grid{grid-template-columns:1fr;gap:14px;}.service-card{padding:22px 20px;}.benefits-grid-cols{grid-template-columns:1fr;gap:14px;}.benefit-card{padding:20px;gap:14px;}.footer-social{flex-direction:column;align-items:center;gap:12px;}.footer-social-btn{width:100%;max-width:320px;justify-content:flex-start;}.footer-hours{flex-direction:column;align-items:center;gap:10px;}.footer-hour-pill{width:100%;max-width:280px;}.footer-logo{font-size:1.9rem;}.whatsapp-float-btn{padding:14px 18px;font-size:.95rem;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));}.tracking-input-row{flex-direction:column;}.tracking-btn{justify-content:center;}.tracking-box{padding:24px 18px;}.tl-label{font-size:.6rem;max-width:56px;}}
 @media(max-width:380px){.hero h1{font-size:2rem;}.section-title{font-size:1.8rem;}}
 </style>
 </head>
@@ -635,7 +588,6 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
   <div class="nav-dropdown" id="navDropdown">
     <a href="#servicios"><i class="fa-solid fa-mobile-screen"></i> Servicios</a>
     <a href="#seguimiento" style="background:rgba(255,208,0,.08);border:1px solid rgba(255,208,0,.2);border-radius:12px;color:var(--yellow);font-weight:800;"><i class="fa-solid fa-magnifying-glass" style="color:var(--yellow);"></i> 🔍 Seguir mi reparación</a>
-    <a href="#usados" style="background:rgba(255,208,0,.1);border:1px solid rgba(255,208,0,.3);border-radius:12px;color:var(--yellow);font-weight:800;"><i class="fa-solid fa-tags" style="color:var(--yellow);"></i> 📱 Usados disponibles</a>
     <a href="#por-que-elegirnos"><i class="fa-solid fa-shield-halved"></i> ¿Por qué elegirnos?</a>
     <div class="nav-sep"></div>
     <a href="#testimonios"><i class="fa-solid fa-star"></i> Testimonios</a>
@@ -683,12 +635,12 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
       <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> ZTE</div>
     </div>
     <div class="services-grid">
-      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-mobile-screen"></i></div><h3>Cambio de Pantalla</h3><p>Módulos originales y compatibles para todas las marcas: iPhone, Samsung, Motorola, Xiaomi y más.</p><div class="service-price"><i class="fa-solid fa-tag"></i> desde $40.000</div></div>
-      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-battery-full"></i></div><h3>Cambio de Batería</h3><p>Reemplazamos tu batería y tu equipo vuelve a durar como el primer día. Todas las marcas.</p><div class="service-price"><i class="fa-solid fa-tag"></i> desde $40.000</div></div>
-      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-bolt"></i></div><h3>Pin de Carga</h3><p>Reparación y cambio del conector de carga. No carga tu celular — lo solucionamos.</p><div class="service-price"><i class="fa-solid fa-tag"></i> desde $40.000</div></div>
-      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-lock-open"></i></div><h3>Cuenta Google / FRP</h3><p>Desbloqueo de cuenta Google y FRP en equipos Android de todas las marcas.</p><div class="service-price"><i class="fa-solid fa-tag"></i> desde $40.000</div></div>
-      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-laptop"></i></div><h3>Software y Flasheo</h3><p>Optimización, flasheo y recuperación de sistema en iPhone, Samsung, Motorola y más.</p><div class="service-price"><i class="fa-solid fa-tag"></i> desde $40.000</div></div>
-      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div><h3>Reparaciones Generales</h3><p>Soluciones para múltiples fallas de hardware. Diagnóstico gratuito sin compromiso.</p><div class="service-price"><i class="fa-solid fa-tag"></i> desde $40.000</div></div>
+      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-mobile-screen"></i></div><h3>Cambio de Pantalla</h3><p>Módulos originales y compatibles para todas las marcas: iPhone, Samsung, Motorola, Xiaomi y más.</p></div>
+      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-battery-full"></i></div><h3>Cambio de Batería</h3><p>Reemplazamos tu batería y tu equipo vuelve a durar como el primer día. Todas las marcas.</p></div>
+      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-bolt"></i></div><h3>Pin de Carga</h3><p>Reparación y cambio del conector de carga. No carga tu celular — lo solucionamos.</p></div>
+      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-lock-open"></i></div><h3>Cuenta Google / FRP</h3><p>Desbloqueo de cuenta Google y FRP en equipos Android de todas las marcas.</p></div>
+      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-laptop"></i></div><h3>Software y Flasheo</h3><p>Optimización, flasheo y recuperación de sistema en iPhone, Samsung, Motorola y más.</p></div>
+      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div><h3>Reparaciones Generales</h3><p>Soluciones para múltiples fallas de hardware. Diagnóstico gratuito sin compromiso.</p></div>
     </div>
   </div>
 </section>
@@ -821,31 +773,6 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
   </div>
 </section>
 
-<!-- USADOS -->
-<section id="usados" style="position:relative;overflow:hidden;">
-  <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,208,0,.04) 0%,transparent 60%);pointer-events:none;"></div>
-  <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:rgba(255,208,0,.05);filter:blur(80px);top:-200px;right:-100px;pointer-events:none;"></div>
-  <div class="container" style="position:relative;z-index:2;">
-    <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,208,0,.1);border:1px solid rgba(255,208,0,.3);border-radius:50px;padding:8px 20px;margin-bottom:20px;">
-      <span style="width:8px;height:8px;border-radius:50%;background:#FFD000;display:inline-block;box-shadow:0 0 8px #FFD000;animation:pulse 2s infinite;"></span>
-      <span style="font-size:.8rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--yellow);">Stock disponible</span>
-    </div>
-    <h2 class="section-title reveal">Usados <span style="color:var(--yellow)">Verificados.</span></h2>
-    <div class="section-line reveal"></div>
-    <p class="section-description reveal">Todos nuestros equipos pasan por revisión técnica antes de la venta. <strong style="color:white;">Lo que ves, está disponible.</strong></p>
-    <div class="usados-filters" id="usadosFilters">
-      <button class="filter-btn active" data-filter="todos">Todos</button>
-      <button class="filter-btn" data-filter="LG">LG</button>
-      <button class="filter-btn" data-filter="Samsung">Samsung</button>
-      <button class="filter-btn" data-filter="Motorola">Motorola</button>
-      <button class="filter-btn" data-filter="iPhone">iPhone</button>
-      <button class="filter-btn" data-filter="Xiaomi">Xiaomi</button>
-    </div>
-    <div class="usados-grid" id="usadosGrid"></div>
-    <div class="usados-empty" id="usadosEmpty"><i class="fa-solid fa-mobile-screen-button"></i>No hay equipos en esa categoría por ahora.</div>
-  </div>
-</section>
-
 <!-- TESTIMONIOS -->
 <section id="testimonios">
   <div class="container">
@@ -874,7 +801,7 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
       <div class="faq-item"><div class="faq-question">¿Tiene garantía la reparación?<div class="faq-icon"><i class="fa-solid fa-plus"></i></div></div><div class="faq-answer">Sí. Todas nuestras reparaciones cuentan con garantía. Ante cualquier inconveniente relacionado con el trabajo realizado, lo resolvemos sin costo adicional.</div></div>
       <div class="faq-item"><div class="faq-question">¿Hacen diagnóstico gratuito de celulares?<div class="faq-icon"><i class="fa-solid fa-plus"></i></div></div><div class="faq-answer">Sí, el diagnóstico es gratuito y sin compromiso. Revisamos tu equipo y te decimos qué tiene y cuánto sale arreglarlo antes de hacer nada.</div></div>
       <div class="faq-item"><div class="faq-question">¿Trabajan con iPhone, Samsung y otras marcas?<div class="faq-icon"><i class="fa-solid fa-plus"></i></div></div><div class="faq-answer">Sí, trabajamos con iPhone, Samsung, Motorola, Xiaomi, LG, Huawei, Sony, Nokia, ZTE y la gran mayoría de modelos del mercado.</div></div>
-      <div class="faq-item"><div class="faq-question">¿Cuánto sale un cambio de pantalla?<div class="faq-icon"><i class="fa-solid fa-plus"></i></div></div><div class="faq-answer">Los precios arrancan desde $40.000 dependiendo del modelo y el tipo de repuesto. El diagnóstico es gratuito — traé el equipo a Formosa 61, Caballito, y te damos el precio exacto sin compromiso.</div></div>
+      <div class="faq-item"><div class="faq-question">¿Cuánto sale un cambio de pantalla?<div class="faq-icon"><i class="fa-solid fa-plus"></i></div></div><div class="faq-answer">El precio depende del modelo y del tipo de repuesto. El diagnóstico es gratuito — traé el equipo a Formosa 61, Caballito, y te damos el precio exacto sin compromiso.</div></div>
       <div class="faq-item"><div class="faq-question">¿Cómo sé en qué estado está mi celular?<div class="faq-icon"><i class="fa-solid fa-plus"></i></div></div><div class="faq-answer">Cuando dejás tu equipo te damos un código único de seguimiento (ej: DAR-X7K2M9). Con ese código podés consultar el estado en tiempo real desde esta misma página, en la sección "Seguí tu reparación".</div></div>
     </div>
   </div>
@@ -926,23 +853,6 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
   <div class="pf-title">20% OFF EN TU PRIMERA REPARACIÓN</div>
   <div class="pf-sub">🔥 Para los primeros 20 clientes del mes</div>
 </a>
-
-<!-- MODAL USADOS -->
-<div class="usado-modal-overlay" id="usadoModal">
-  <div class="usado-modal">
-    <img src="" alt="" class="usado-modal-img" id="modalImg"/>
-    <div class="usado-modal-body">
-      <p class="usado-modal-marca" id="modalMarca"></p>
-      <h3 class="usado-modal-modelo" id="modalModelo"></h3>
-      <p class="usado-modal-desc" id="modalDesc"></p>
-      <div class="usado-modal-precio" id="modalPrecio"></div>
-      <div class="usado-modal-actions">
-        <a href="#" class="modal-btn-wa" id="modalWa" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Lo quiero</a>
-        <button class="modal-btn-close" id="modalClose">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 'use strict';
@@ -1177,66 +1087,6 @@ document.getElementById('tracking-input').addEventListener('input', function() {
   }
 });
 
-/* ─── USADOS ─── */
-const USADOS = [
-  {
-    marca:'LG', modelo:'LG K22 Liberado', detalle:'Liberado · Batería 95% · Con marcas de uso',
-    desc:'Equipo liberado para cualquier operadora. Batería en excelente estado (95%). Presenta algunas marcas de uso en la carcasa trasera. Pantalla sin rayones. Revisado por nuestro técnico.',
-    precio:40000, vendido:true,
-    fotos:["data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%230d0d0d' width='400' height='400'/%3E%3Ctext fill='%23FFD000' font-size='80' font-family='Arial' text-anchor='middle' x='200' y='230'%3E%F0%9F%93%B1%3C/text%3E%3C/svg%3E"]
-  }
-];
-const WA_NUMBER = '5491162575047';
-function formatPrecio(n){ return '$'+n.toLocaleString('es-AR'); }
-function waLink(modelo){ return 'https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent('Hola! Vi el '+modelo+' en la web y me interesa 👀'); }
-
-function renderCards(filtro){
-  const grid=document.getElementById('usadosGrid');
-  const empty=document.getElementById('usadosEmpty');
-  const lista=filtro==='todos'?USADOS:USADOS.filter(u=>u.marca===filtro);
-  grid.innerHTML='';
-  if(!lista.length){empty.style.display='block';return;}
-  empty.style.display='none';
-  lista.forEach(u=>{
-    const idx=USADOS.indexOf(u);
-    const card=document.createElement('div');
-    card.className='usado-card';
-    const vendidoOverlay=u.vendido?`<div class="usado-vendido-overlay"><div class="usado-vendido-badge">Vendido</div></div>`:'';
-    if(u.vendido)card.classList.add('vendido');
-    card.innerHTML=`<div class="usado-img-wrap"><img src="${u.fotos[0]}" alt="${u.modelo}" loading="lazy"/><span class="usado-marca-badge">${u.marca}</span>${vendidoOverlay}</div><div class="usado-info"><h3 class="usado-modelo">${u.modelo}</h3><p class="usado-detalle">${u.detalle}</p><div class="usado-footer"><div class="usado-precio">${formatPrecio(u.precio)} <span>ARS</span></div><a href="${waLink(u.modelo)}" class="usado-btn" target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Lo quiero</a></div></div>`;
-    if(!u.vendido)card.addEventListener('click',()=>openModal(idx));
-    grid.appendChild(card);
-  });
-}
-
-function openModal(idx){
-  const u=USADOS[idx];
-  document.getElementById('modalImg').src=u.fotos[0];
-  document.getElementById('modalMarca').textContent=u.marca;
-  document.getElementById('modalModelo').textContent=u.modelo;
-  document.getElementById('modalDesc').textContent=u.desc;
-  document.getElementById('modalPrecio').innerHTML=formatPrecio(u.precio)+' <span>ARS</span>';
-  document.getElementById('modalWa').href=waLink(u.modelo);
-  document.getElementById('usadoModal').classList.add('open');
-  document.body.style.overflow='hidden';
-}
-function closeModal(){
-  document.getElementById('usadoModal').classList.remove('open');
-  document.body.style.overflow='';
-}
-document.getElementById('modalClose').addEventListener('click',closeModal);
-document.getElementById('usadoModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
-
-/* ─── FILTROS USADOS ─── */
-document.querySelectorAll('.filter-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    renderCards(btn.dataset.filter);
-  });
-});
-
 /* ─── HAMBURGER ─── */
 const hamburger=document.getElementById('hamburger');
 const navDropdown=document.getElementById('navDropdown');
@@ -1329,8 +1179,6 @@ document.querySelectorAll('.faq-question').forEach(q=>{
     },800);
   }
 })();
-
-renderCards('todos');
 
 /* ══════ BRAND INTRO — secuencia ══════ */
 (function(){
