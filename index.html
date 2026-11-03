@@ -162,23 +162,25 @@ body{
 section{padding:100px 7%;position:relative;}
 .container{max-width:1300px;margin:auto;}
 
-/* ── MARQUESINA FIJA ── */
-.marquee-wrapper{position:fixed;top:0;left:0;width:100%;z-index:1000;background:linear-gradient(135deg,#F7B41B 0%,#F69E0A 100%);overflow:hidden;height:32px;display:flex;align-items:center;border-bottom:1px solid rgba(0,0,0,.12);box-shadow:0 1px 8px rgba(247,180,27,.4);}
-.marquee-wrapper::before,.marquee-wrapper::after{content:'';position:absolute;top:0;width:60px;height:100%;z-index:2;pointer-events:none;}
-.marquee-wrapper::before{left:0;background:linear-gradient(to right,#F7B41B,transparent);}
-.marquee-wrapper::after{right:0;background:linear-gradient(to left,#F69E0A,transparent);}
-.marquee-track{display:flex;width:max-content;animation:scroll-left 28s linear infinite;align-items:center;}
-.marquee-track:hover{animation-play-state:paused;}
-@keyframes scroll-left{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.marquee-item{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;padding:0 24px;font-family:'Inter',sans-serif;font-size:.75rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#0B1020;text-decoration:none;line-height:1;}
-.marquee-item.clickable:hover{text-decoration:underline;cursor:pointer;}
-.marquee-sep{color:rgba(0,0,0,.3);font-size:.9rem;font-weight:400;padding:0 2px;}
-
 /* HEADER */
-header{position:fixed;top:32px;left:0;width:100%;z-index:999;backdrop-filter:blur(16px);background:rgba(11,16,32,.72);border-bottom:1px solid rgba(247,180,27,.08);}
+header{position:fixed;top:0;left:0;width:100%;z-index:999;backdrop-filter:blur(16px);background:#000;border-bottom:1px solid rgba(247,180,27,.12);}
 .navbar{display:flex;align-items:center;justify-content:space-between;padding:18px 7%;}
+.nav-desktop{display:none;}
+.hamburger{order:1;}.logo{order:2;}.nav-ig{order:3;}
+@media(min-width:981px){
+  .navbar{padding:16px 7%;max-width:1500px;margin:0 auto;}
+  .logo{order:1;}
+  .hamburger,.nav-dropdown,.nav-ig{display:none !important;}
+  .nav-desktop{order:2;display:flex;align-items:center;gap:34px;}
+  .nav-desktop a{color:#fff;text-decoration:none;font-size:.95rem;font-weight:600;letter-spacing:.1px;transition:color .25s;white-space:nowrap;}
+  .nav-desktop a:hover{color:var(--yellow);}
+  .nav-desktop a.nav-cta{background:var(--yellow);color:#0B1020;padding:10px 20px;border-radius:12px;font-weight:800;}
+  .nav-desktop a.nav-cta:hover{color:#0B1020;filter:brightness(1.08);}
+}
+@media(min-width:981px) and (max-width:1180px){.navbar{padding:16px 3%;}.nav-desktop{gap:16px;}.nav-desktop a{font-size:.84rem;}.nav-desktop a.nav-cta{padding:9px 14px;}}
 .logo{text-decoration:none;font-size:1.8rem;font-weight:900;letter-spacing:-1px;color:white;}
 .logo span{color:var(--yellow);}
+.bolt-ic{display:inline-block;height:1em;width:.67em;margin-right:.1em;vertical-align:-.1em;flex:none;}
 .nav-social{display:flex;align-items:center;gap:10px;}
 .nav-ig{display:flex;align-items:center;justify-content:center;text-decoration:none;transition:.3s;font-size:2.2rem;background:none;-webkit-background-clip:unset;}
 .nav-ig i{font-size:2.2rem;background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
@@ -190,7 +192,7 @@ header{position:fixed;top:32px;left:0;width:100%;z-index:999;backdrop-filter:blu
 .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
 .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
 .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
-.nav-dropdown{position:fixed;top:107px;left:7%;background:rgba(10,10,10,.97);border:1px solid rgba(247,180,27,.18);border-radius:20px;padding:10px;min-width:230px;box-shadow:0 20px 60px rgba(0,0,0,.6);backdrop-filter:blur(20px);opacity:0;pointer-events:none;transform:translateY(-10px);transition:.3s ease;z-index:998;}
+.nav-dropdown{position:fixed;top:78px;left:7%;background:rgba(10,10,10,.97);border:1px solid rgba(247,180,27,.18);border-radius:20px;padding:10px;min-width:230px;box-shadow:0 20px 60px rgba(0,0,0,.6);backdrop-filter:blur(20px);opacity:0;pointer-events:none;transform:translateY(-10px);transition:.3s ease;z-index:998;}
 .nav-dropdown.open{opacity:1;pointer-events:all;transform:translateY(0);}
 .nav-dropdown a{display:flex;align-items:center;gap:12px;padding:13px 16px;text-decoration:none;color:rgba(255,255,255,.85);font-size:.97rem;font-weight:600;border-radius:12px;transition:.25s;}
 .nav-dropdown a i{width:20px;text-align:center;color:var(--yellow);font-size:.9rem;}
@@ -198,11 +200,11 @@ header{position:fixed;top:32px;left:0;width:100%;z-index:999;backdrop-filter:blu
 .nav-sep{height:1px;background:rgba(255,255,255,.06);margin:6px 10px;}
 
 /* HERO */
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding-top:180px;}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding-top:140px;padding-bottom:60px;}
 .hero::before{content:'';position:absolute;width:650px;height:650px;background:rgba(247,180,27,.08);filter:blur(120px);top:-250px;left:50%;transform:translateX(-50%);}
 .hero-content{position:relative;z-index:2;max-width:950px;}
 .hero-badge{display:inline-flex;align-items:center;gap:10px;padding:12px 24px;border-radius:50px;border:1px solid rgba(247,180,27,.18);background:rgba(247,180,27,.04);margin-bottom:30px;font-size:.85rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--yellow);}
-.hero h1{font-size:clamp(4rem,10vw,7rem);line-height:.92;font-weight:900;letter-spacing:-4px;margin-bottom:28px;text-transform:uppercase;}
+.hero h1{font-size:clamp(3rem,9vw,6rem);line-height:.92;font-weight:900;letter-spacing:-4px;margin-bottom:28px;text-transform:uppercase;}
 .hero h1 span{color:var(--yellow);}
 .hero h1 .tec{color:inherit;display:inline-block;padding-top:.16em;}
 .hero p{max-width:720px;margin:auto;font-size:1.1rem;line-height:1.8;color:var(--gray);margin-bottom:40px;}
@@ -218,16 +220,6 @@ header{position:fixed;top:32px;left:0;width:100%;z-index:999;backdrop-filter:blu
 .brand-pill{display:flex;align-items:center;gap:10px;padding:10px 22px;border-radius:50px;border:1px solid rgba(247,180,27,.18);background:rgba(247,180,27,.04);font-size:.95rem;font-weight:700;color:rgba(255,255,255,.85);transition:.3s;}
 .brand-pill i{color:var(--yellow);font-size:1.1rem;}
 .brand-pill:hover{border-color:rgba(247,180,27,.4);background:rgba(247,180,27,.08);}
-
-/* PROMO */
-.promo-hero{margin-top:50px;background:linear-gradient(135deg,#6C27FF 0%,#3B82F6 60%,#06B6D4 100%);border-radius:26px;padding:44px 40px;color:white;position:relative;overflow:hidden;text-align:center;box-shadow:0 8px 48px rgba(108,39,255,.35);border:1px solid rgba(255,255,255,.1);}
-.promo-hero::before{content:'';position:absolute;width:350px;height:350px;border-radius:50%;background:rgba(255,255,255,.07);top:-160px;right:-100px;}
-.promo-hero::after{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-80px;left:-60px;}
-.promo-hero h2{font-size:clamp(1.8rem,4vw,3rem);font-weight:900;line-height:1;margin-bottom:10px;position:relative;z-index:2;color:white;}
-.promo-hero .promo-sub{font-size:1rem;font-weight:800;margin-bottom:10px;position:relative;z-index:2;color:var(--yellow) !important;opacity:1;}
-.promo-hero p{font-size:.97rem;margin-bottom:26px;position:relative;z-index:2;color:rgba(255,255,255,.85);}
-.promo-hero .btn{background:var(--yellow);color:black;font-weight:900;position:relative;z-index:2;box-shadow:0 4px 20px rgba(247,180,27,.35);}
-.promo-hero .btn:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(247,180,27,.5);}
 
 /* TITLES */
 .section-tag{font-size:.85rem;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:var(--yellow);margin-bottom:18px;}
@@ -256,21 +248,27 @@ header{position:fixed;top:32px;left:0;width:100%;z-index:999;backdrop-filter:blu
 .benefit-content h3{font-size:1.25rem;font-weight:800;margin-bottom:10px;}
 .benefit-content p{color:var(--gray);line-height:1.8;}
 
-/* TESTIMONIALS */
-.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;}
-.review-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);border-radius:22px;padding:28px 28px 22px;transition:.35s;position:relative;overflow:hidden;}
-.review-card:hover{transform:translateY(-7px);border-color:rgba(247,180,27,.22);}
-.review-source{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
-.review-source-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;flex-shrink:0;}
-.review-source-icon.google{background:#fff;color:#EA4335;}
-.review-source-label{font-size:.78rem;color:var(--gray);font-weight:600;letter-spacing:1px;text-transform:uppercase;}
-.review-stars{color:#F7B41B;font-size:.95rem;margin-bottom:14px;letter-spacing:2px;}
-.review-text{font-size:1rem;line-height:1.8;color:rgba(255,255,255,.82);margin-bottom:18px;}
-.review-footer{display:flex;align-items:center;gap:12px;border-top:1px solid rgba(255,255,255,.06);padding-top:16px;}
-.review-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;flex-shrink:0;}
-.review-name{font-size:.95rem;font-weight:800;}
-.review-detail{font-size:.78rem;color:var(--gray);margin-top:2px;}
-.verified-badge{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:700;color:#25D366;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.2);border-radius:50px;padding:3px 10px;margin-left:auto;}
+/* OPINIONES — carrusel blanco */
+#testimonios{background:#fff;color:#3d4659;}
+#testimonios .rv-head{text-align:center;}
+#testimonios h2.rv-title{font-size:clamp(2.1rem,5vw,3rem);font-weight:800;letter-spacing:-1px;line-height:1.1;color:#3d4659;text-transform:none;margin-bottom:0;}
+#testimonios .rv-line{width:60px;height:4px;border-radius:4px;background:#12a971;margin:14px auto 18px;}
+#testimonios .rv-sub{color:#5b6678;font-size:1.05rem;margin-bottom:44px;}
+.rv-wrap{overflow:hidden;margin:0 -7%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);}
+.rv-track{display:flex;gap:24px;width:max-content;padding:8px 0 16px;animation:rvScroll 70s linear infinite;}
+.rv-wrap:hover .rv-track,.rv-wrap:active .rv-track{animation-play-state:paused;}
+@keyframes rvScroll{to{transform:translateX(-50%);}}
+.rv-card{width:380px;flex:none;background:#fff;border:1px solid #e3e8f0;border-radius:20px;padding:26px 30px 28px;box-shadow:0 4px 18px rgba(30,45,80,.05);display:flex;flex-direction:column;}
+.rv-top{display:flex;justify-content:space-between;align-items:flex-start;}
+.rv-stars{color:#f5a70f;font-size:1.1rem;letter-spacing:3px;}
+.rv-quote{font-family:Georgia,'Times New Roman',serif;font-size:4rem;line-height:.75;color:#d6efe5;font-weight:700;}
+.rv-text{font-style:italic;color:#5b6678;line-height:1.75;font-size:.98rem;margin:16px 0 22px;flex:1;}
+.rv-who{display:flex;align-items:center;gap:14px;}
+.rv-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#12a971,#0e8f5f);color:#fff;font-weight:800;display:grid;place-items:center;flex-shrink:0;}
+.rv-name{display:block;font-weight:800;color:#3d4659;font-size:.98rem;}
+.rv-role{display:block;color:#7a8497;font-size:.82rem;margin-top:2px;}
+@media(max-width:600px){.rv-card{width:290px;padding:22px 22px 24px;}.rv-wrap{margin:0 -5%;}}
+@media(prefers-reduced-motion:reduce){.rv-wrap{overflow-x:auto;-webkit-mask-image:none;mask-image:none;}.rv-track{animation:none;}}
 
 /* FAQ */
 .faq-list{max-width:820px;margin:0 auto;}
@@ -295,34 +293,57 @@ header{position:fixed;top:32px;left:0;width:100%;z-index:999;backdrop-filter:blu
 .schedule-closed{color:var(--gray);font-size:1.2rem;}
 .schedule-note{text-align:center;color:var(--gray);font-size:.9rem;margin-top:10px;}
 
+/* TONOS DE SECCIONES */
+section{scroll-margin-top:110px;}
+.tone-a{background:#0d1426;}
+.tone-b{background:#17213b;}
+
+/* FORMULARIO DE PRESUPUESTO */
+.quote-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:start;}
+.quote-pts{list-style:none;margin-top:8px;}
+.quote-pts li{color:#a9b4c8;margin-bottom:12px;line-height:1.7;}
+.quote-pts b{color:#fff;}
+.quote-form{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:30px;display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.quote-form .full{grid-column:1/-1;}
+.quote-form label{display:block;font-size:.8rem;font-weight:600;margin-bottom:6px;}
+.quote-form label em{font-style:normal;font-weight:400;color:#a9b4c8;}
+.quote-form input,.quote-form textarea{width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:rgba(0,0,0,.25);color:#fff;font:inherit;font-size:.95rem;}
+.quote-form input:focus,.quote-form textarea:focus{outline:0;border-color:var(--yellow);}
+.quote-form textarea{min-height:96px;resize:vertical;}
+.quote-submit{width:100%;padding:15px 24px;border-radius:12px;border:0;background:var(--yellow);color:#0d1426;font-family:inherit;font-weight:800;font-size:1rem;cursor:pointer;transition:.3s;}
+.quote-submit:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(247,180,27,.4);}
+#quote-err{display:none;grid-column:1/-1;background:rgba(240,84,79,.12);color:#ff8f8b;border-radius:12px;padding:14px;font-size:.92rem;}
+.quote-submit:disabled{opacity:.7;cursor:not-allowed;transform:none;}
+#quote-ok{display:none;grid-column:1/-1;background:rgba(46,160,100,.15);color:#7fe0aa;border-radius:12px;padding:14px;font-size:.92rem;}
+@media(max-width:860px){.quote-grid{grid-template-columns:1fr;gap:32px;}}
+@media(max-width:560px){.quote-form{grid-template-columns:1fr;padding:22px 18px;}}
+
 /* FOOTER */
-footer{padding:70px 7% 0;border-top:1px solid rgba(247,180,27,.12);background:rgba(255,255,255,.015);}
-.footer-inner{max-width:700px;margin:0 auto;text-align:center;padding-bottom:50px;}
-.footer-logo{font-size:2.4rem;font-weight:900;margin-bottom:14px;display:block;}
-.footer-logo span{color:var(--yellow);}
-.footer-desc{color:var(--gray);line-height:1.8;font-size:.97rem;margin-bottom:10px;}
-.footer-location{display:inline-flex;align-items:center;gap:8px;background:rgba(247,180,27,.06);border:1px solid rgba(247,180,27,.15);border-radius:50px;padding:8px 18px;font-size:.82rem;font-weight:700;color:var(--yellow);letter-spacing:1px;margin-bottom:40px;}
-.footer-divider{width:60px;height:3px;background:var(--yellow);margin:0 auto 36px;border-radius:4px;}
-.footer-social{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:36px;}
-.footer-social-btn{display:flex;align-items:center;gap:12px;text-decoration:none;padding:14px 24px;border-radius:16px;font-weight:700;font-size:.97rem;transition:.35s;border:1px solid transparent;min-width:200px;}
-.footer-social-btn.ig{background:rgba(214,36,159,.08);border-color:rgba(214,36,159,.25);color:white;}
-.footer-social-btn.ig:hover{background:rgba(214,36,159,.2);transform:translateY(-3px);}
-.footer-social-btn.wa{background:rgba(37,211,102,.08);border-color:rgba(37,211,102,.25);color:white;}
-.footer-social-btn.wa:hover{background:rgba(37,211,102,.2);transform:translateY(-3px);}
-.footer-social-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;}
-.footer-social-icon.ig-icon{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);}
-.footer-social-icon.wa-icon{background:#25D366;}
-.footer-social-info{text-align:left;}
-.footer-social-label{font-size:.7rem;color:var(--gray);letter-spacing:1px;text-transform:uppercase;}
-.footer-social-handle{font-size:.97rem;font-weight:800;}
-.footer-hours{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:40px;}
-.footer-hour-pill{background:rgba(255,255,255,.03);border:1px solid rgba(247,180,27,.12);border-radius:14px;padding:12px 20px;text-align:center;min-width:160px;}
-.footer-hour-day{font-size:.78rem;color:var(--gray);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
-.footer-hour-time{font-size:.95rem;font-weight:800;color:white;}
-.footer-hour-time.closed{color:rgba(255,255,255,.25);}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.06);padding:20px 0;text-align:center;}
-.footer-copy{color:rgba(255,255,255,.3);font-size:.82rem;}
-.footer-copy span{color:var(--yellow);}
+.site-footer{background:#000;color:#d4d7dd;border-top:0;padding:0;}
+.ft-in{max-width:none;margin:0;padding:72px 5% 56px;display:grid;grid-template-columns:1.7fr 1fr 1.2fr 1.2fr;gap:56px;}
+.ft-logo{display:block;font-size:2.7rem;font-weight:900;letter-spacing:-2.5px;line-height:1;color:#fff;margin-bottom:22px;}
+.ft-logo span{color:var(--yellow);}
+
+.ft-ds{font-size:.95rem;line-height:1.95;max-width:420px;}
+.site-footer h4{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:8px;}
+.site-footer h4+u{display:block;width:34px;height:3px;background:var(--yellow);margin-bottom:22px;}
+.ft-lk a{display:block;margin-bottom:14px;font-size:.96rem;color:inherit;text-decoration:none;transition:color .25s;}
+.ft-lk a:hover{color:var(--yellow);}
+.ft-ct div{display:flex;gap:12px;margin-bottom:18px;font-size:.96rem;}
+.ft-ct i{color:var(--yellow);margin-top:4px;width:18px;text-align:center;flex-shrink:0;}
+.ft-ct a{color:inherit;text-decoration:none;}
+.ft-ct a:hover{color:var(--yellow);}
+.ft-rs p{font-size:.92rem;margin-bottom:18px;max-width:260px;}
+.ft-so{display:flex;gap:12px;}
+.ft-so a{width:42px;height:42px;border-radius:50%;background:#1c1c1c;display:grid;place-items:center;color:#fff;text-decoration:none;font-size:1.1rem;transition:.3s;}
+.ft-so a:hover{background:var(--yellow);color:#000;}
+.ft-mail{width:42px;height:42px;border-radius:50%;background:#1c1c1c;display:grid;place-items:center;color:#fff;text-decoration:none;font-size:1.1rem;margin-top:12px;transition:.3s;}
+.ft-mail:hover{background:var(--yellow);color:#000;}
+.ft-cp{border-top:1px solid rgba(255,255,255,.1);text-align:center;padding:20px 5%;font-size:.84rem;color:#9aa0ab;}
+.ft-cp b{color:var(--yellow);font-weight:600;}
+@media(max-width:900px){.ft-in{grid-template-columns:1fr 1fr;}}
+@media(max-width:1100px){.ft-in{gap:36px;}}
+@media(max-width:540px){.ft-in{grid-template-columns:1fr;padding:56px 5% 40px;}.ft-logo{font-size:2.3rem;}}
 
 /* HERO PILLS */
 .hero-info-pills{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:28px;}
@@ -550,55 +571,56 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
 .tracking-error-sub{font-size:.88rem;color:rgba(255,255,255,.45);margin-top:4px;}
 
 
-/* PROMO FLOTANTE */
-#promoFloat{position:fixed;z-index:10001;cursor:pointer;text-decoration:none;right:20px;bottom:100px;top:auto;transform:none;width:260px;border-radius:20px;background:linear-gradient(135deg,#6C27FF 0%,#3B82F6 60%,#06B6D4 100%);box-shadow:0 8px 40px rgba(108,39,255,.45);border:1px solid rgba(255,255,255,.15);padding:20px 22px;color:white;opacity:0;pointer-events:none;transition:opacity .4s ease,box-shadow .3s;overflow:hidden;display:block;}
-#promoFloat::before{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.07);top:-80px;right:-60px;pointer-events:none;}
-#promoFloat.visible{opacity:1;pointer-events:all;}
-#promoFloat:hover{box-shadow:0 12px 56px rgba(108,39,255,.6);}
-.pf-title{font-size:.95rem;font-weight:900;line-height:1.2;margin-bottom:6px;color:white;}
-.pf-sub{display:block;font-size:.72rem;font-weight:800;color:var(--yellow);margin-bottom:0;}
-@media(max-width:768px){#promoFloat{right:16px;bottom:90px;width:160px;padding:12px 14px;border-radius:16px;}.pf-title{font-size:.78rem;line-height:1.2;margin-bottom:4px;text-align:center;}.pf-sub{font-size:.67rem;text-align:center;line-height:1.3;}}
-
 /* ═══════════════════════════ RESPONSIVE ═══════════════════════════ */
-@media(max-width:980px){section{padding:80px 5%;}.navbar{padding:16px 5%;}.hero{padding-top:160px;padding-bottom:60px;min-height:auto;}.hero-buttons{flex-direction:column;align-items:center;gap:12px;}.btn{width:100%;max-width:380px;justify-content:center;}.promo-hero{padding:28px 24px;}.services-grid{grid-template-columns:repeat(2,1fr);}.testimonials-grid{grid-template-columns:1fr;}}
-@media(max-width:600px){.marquee-wrapper{height:28px;}.marquee-item{font-size:.68rem;padding:0 18px;letter-spacing:1px;}header{top:28px;}.nav-dropdown{top:103px;}section{padding:60px 5%;}.container{width:100%;}.navbar{padding:14px 5%;}.logo{font-size:1.35rem;}.nav-ig i{font-size:1.8rem;}.nav-dropdown{left:5%;right:5%;min-width:unset;}.hero{padding-top:140px;padding-bottom:50px;min-height:auto;}.hero-badge{font-size:.72rem;letter-spacing:2px;padding:10px 18px;}.hero h1{font-size:2.5rem;line-height:.95;letter-spacing:-1.5px;margin-bottom:20px;}.hero p{font-size:.97rem;margin-bottom:28px;}.btn{width:100%;max-width:100%;justify-content:center;padding:16px 20px;font-size:.97rem;border-radius:16px;}.promo-hero{padding:24px 18px;border-radius:20px;margin-top:32px;}.promo-hero h2{font-size:1.5rem;letter-spacing:0;}.section-tag{font-size:.75rem;letter-spacing:3px;}.section-title{font-size:2.1rem;letter-spacing:-1.5px;}.section-description{font-size:.95rem;margin-bottom:36px;}.brands-row{gap:10px;margin-bottom:32px;}.brand-pill{padding:7px 14px;font-size:.8rem;}.services-grid{grid-template-columns:1fr;gap:14px;}.service-card{padding:22px 20px;}.benefits-grid-cols{grid-template-columns:1fr;gap:14px;}.benefit-card{padding:20px;gap:14px;}.footer-social{flex-direction:column;align-items:center;gap:12px;}.footer-social-btn{width:100%;max-width:320px;justify-content:flex-start;}.footer-hours{flex-direction:column;align-items:center;gap:10px;}.footer-hour-pill{width:100%;max-width:280px;}.footer-logo{font-size:1.9rem;}.whatsapp-float-btn{padding:14px 18px;font-size:.95rem;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));}.tracking-input-row{flex-direction:column;}.tracking-btn{justify-content:center;}.tracking-box{padding:24px 18px;}.tl-label{font-size:.6rem;max-width:56px;}}
-@media(max-width:380px){.hero h1{font-size:2rem;}.section-title{font-size:1.8rem;}}
+@media(max-width:980px){section{padding:80px 5%;}.navbar{padding:16px 5%;}.hero{padding-top:125px;padding-bottom:60px;min-height:auto;}.hero-buttons{flex-direction:column;align-items:center;gap:12px;}.btn{width:100%;max-width:380px;justify-content:center;}.services-grid{grid-template-columns:repeat(2,1fr);}.testimonials-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.nav-dropdown{top:74px;}section{padding:60px 5%;}.container{width:100%;}.navbar{padding:14px 5%;}.logo{font-size:1.35rem;}.nav-ig i{font-size:1.8rem;}.nav-dropdown{left:5%;right:5%;min-width:unset;}.hero{padding-top:110px;padding-bottom:50px;min-height:auto;}.hero-badge{font-size:.72rem;letter-spacing:2px;padding:10px 18px;}.hero h1{font-size:clamp(1.9rem,9.2vw,2.5rem);line-height:.95;letter-spacing:-1.5px;margin-bottom:20px;}.hero p{font-size:.97rem;margin-bottom:28px;}.btn{width:100%;max-width:100%;justify-content:center;padding:16px 20px;font-size:.97rem;border-radius:16px;}.section-tag{font-size:.75rem;letter-spacing:3px;}.section-title{font-size:2.1rem;letter-spacing:-1.5px;}.section-description{font-size:.95rem;margin-bottom:36px;}.brands-row{gap:10px;margin-bottom:32px;}.brand-pill{padding:7px 14px;font-size:.8rem;}.services-grid{grid-template-columns:1fr;gap:14px;}.service-card{padding:22px 20px;}.benefits-grid-cols{grid-template-columns:1fr;gap:14px;}.benefit-card{padding:20px;gap:14px;}.footer-social{flex-direction:column;align-items:center;gap:12px;}.footer-social-btn{width:100%;max-width:320px;justify-content:flex-start;}.footer-hours{flex-direction:column;align-items:center;gap:10px;}.footer-hour-pill{width:100%;max-width:280px;}.footer-logo{font-size:1.9rem;}.whatsapp-float-btn{padding:14px 18px;font-size:.95rem;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));}.tracking-input-row{flex-direction:column;}.tracking-btn{justify-content:center;}.tracking-box{padding:24px 18px;}.tl-label{font-size:.6rem;max-width:56px;}}
+@media(max-width:380px){.hero h1{font-size:clamp(1.9rem,9.2vw,2rem);}.section-title{font-size:1.8rem;}}
 
 /* ── HERO CON VIDEO EN CELULAR ── */
 .hero-split{display:block;width:100%;}
 .hero-phone{position:relative;z-index:2;display:flex;justify-content:center;margin-top:48px;}
-.phone-frame{width:min(250px,68vw);padding:9px;border-radius:40px;background:#05070f;border:2px solid rgba(247,180,27,.45);box-shadow:0 0 70px rgba(247,180,27,.2),0 24px 60px rgba(0,0,0,.5);}
+.phone-frame{width:min(300px,78vw);padding:9px;border-radius:40px;background:#05070f;border:2px solid rgba(247,180,27,.45);box-shadow:0 0 70px rgba(247,180,27,.2),0 24px 60px rgba(0,0,0,.5);}
 .phone-screen{position:relative;border-radius:31px;overflow:hidden;aspect-ratio:478/850;background:#0B1020;}
 .phone-screen::after{content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);width:62px;height:17px;border-radius:12px;background:#05070f;}
 .phone-screen video{width:100%;height:100%;object-fit:cover;display:block;}
 @media(min-width:981px){
-  .hero-split{display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center;}
+  .hero-split{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
   .hero-split .hero-content{max-width:none;text-align:left;}
-  .hero-split .hero h1,.hero .hero-split h1{font-size:clamp(3.2rem,5.6vw,5.4rem);letter-spacing:-3px;}
+  .hero-split .hero h1,.hero .hero-split h1{font-size:clamp(2.4rem,4.4vw,4.4rem);letter-spacing:-3px;}
   .hero .hero-split p{margin-left:0;}
   .hero .hero-split .hero-buttons,.hero .hero-split .hero-info-pills{justify-content:flex-start;}
   .hero-phone{margin-top:0;}
-  .phone-frame{width:clamp(210px,31vh,290px);}
+  .phone-frame{width:clamp(270px,44vh,380px);}
+  .hero-phone{justify-self:center;}
 }
 </style>
 </head>
 
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<linearGradient id="boltG" x1="0.25" y1="0" x2="0.75" y2="1"><stop offset="0" stop-color="#FFC93C"/><stop offset="1" stop-color="#F2612B"/></linearGradient>
+<symbol id="bolt" viewBox="0 0 16 24"><path d="M10.2 0 1 13.6h5.2L4.6 24 15 9.6H9.3z" fill="url(#boltG)"/></symbol>
+</defs></svg>
 <div id="brandIntro" aria-hidden="true">
   <div class="intro-glow"></div>
   <img src="assets/logo-daroocell-transparente.png" alt="" class="intro-logo" id="introLogoImg">
-</div>
-
-<!-- MARQUESINA -->
-<div class="marquee-wrapper" aria-hidden="true">
-  <div class="marquee-track" id="marqueeTrack"></div>
 </div>
 
 <!-- HEADER -->
 <header>
   <div class="navbar">
     <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
-    <a href="#" class="logo"><span>⚡ DAROO</span> CELL</a>
+    <a href="#" class="logo"><svg class="bolt-ic" viewBox="0 0 16 24" aria-hidden="true"><use href="#bolt"/></svg><span>DAROO</span> CELL</a>
+    <nav class="nav-desktop" aria-label="Menú principal">
+      <a href="#">Inicio</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#seguimiento">Seguir mi reparación</a>
+      <a href="#por-que-elegirnos">Nosotros</a>
+      <a href="#testimonios">Opiniones</a>
+      <a href="#faq">Preguntas</a>
+      <a href="#horarios">Horarios</a>
+      <a href="#presupuesto" class="nav-cta">Contacto</a>
+    </nav>
     <a href="https://instagram.com/daroo.cell" class="nav-ig" target="_blank" rel="noopener" title="Instagram DarooCell">
       <i class="fa-brands fa-instagram"></i>
     </a>
@@ -607,6 +629,7 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
     <a href="#servicios"><i class="fa-solid fa-mobile-screen"></i> Servicios</a>
     <a href="#seguimiento" style="background:rgba(247,180,27,.08);border:1px solid rgba(247,180,27,.2);border-radius:12px;color:var(--yellow);font-weight:800;"><i class="fa-solid fa-magnifying-glass" style="color:var(--yellow);"></i> 🔍 Seguir mi reparación</a>
     <a href="#por-que-elegirnos"><i class="fa-solid fa-shield-halved"></i> ¿Por qué elegirnos?</a>
+    <a href="#presupuesto"><i class="fa-solid fa-file-invoice-dollar"></i> Solicitar presupuesto</a>
     <div class="nav-sep"></div>
     <a href="#testimonios"><i class="fa-solid fa-star"></i> Testimonios</a>
     <a href="#faq"><i class="fa-solid fa-circle-question"></i> Preguntas frecuentes</a>
@@ -618,21 +641,16 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
 </header>
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero tone-a">
   <div class="container hero-split">
   <div class="hero-content reveal">
-    <h1>Servicio <span class="tec">Técnico</span> <br>de <span>Celulares.</span></h1>
-    <p>Reparamos tu equipo con repuestos de calidad y garantía. <strong style="color:white;">Caballito, Buenos Aires.</strong></p>
+    <h1>Servicio <span class="tec">Técnico</span> <br><i style="font-style:normal;white-space:nowrap;">de <span>Celulares.</span></i></h1>
+    <p>Reparamos tu equipo con repuestos de calidad y garantía.<br><strong style="color:white;">Formosa 61 Caballito, Buenos Aires.</strong></p>
     <div class="hero-buttons" style="margin-top:32px;">
+      <a href="#presupuesto" class="btn" style="background:var(--yellow);color:#0B1020;font-weight:800;">Pedir presupuesto</a>
       <a href="#seguimiento" class="btn" style="background:rgba(247,180,27,.1);border:1px solid rgba(247,180,27,.35);color:var(--yellow);"><i class="fa-solid fa-magnifying-glass"></i> Seguir mi reparación</a>
-      <a href="#servicios" class="btn btn-secondary">Ver servicios →</a>
     </div>
-    <div class="hero-info-pills reveal">
-      <a href="https://share.google/cV2Aoyag5J3tmhXgD" class="hero-pill hero-pill--map" target="_blank" rel="noopener">
-        <i class="fa-solid fa-location-dot"></i> Formosa 61, Caballito
-      </a>
-    </div>
-    <div class="scroll">SCROLL ↓</div>
+        <div class="scroll">SCROLL ↓</div>
   </div>
   <div class="hero-phone reveal" aria-hidden="true">
     <div class="phone-frame">
@@ -647,7 +665,7 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
 </section>
 
 <!-- SERVICIOS -->
-<section id="servicios">
+<section id="servicios" class="tone-b">
   <div class="container">
     <h2 class="section-title reveal">Nuestros <span style="color:var(--yellow)">Servicios.</span></h2>
     <div class="section-line reveal"></div>
@@ -674,20 +692,36 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
   </div>
 </section>
 
-<!-- PROMO -->
-<section id="promo" style="padding:0 7%;">
-  <div class="promo-hero" style="margin-top:0;margin-bottom:0;">
-    <h2>20% OFF EN TU PRIMERA REPARACIÓN</h2>
-    <div class="promo-sub">🔥 Para los primeros 20 clientes del mes</div>
-    <p>Aprovechá esta promoción exclusiva en Caballito y dejá tu celular como nuevo.</p>
-    <a href="https://wa.me/5491162575047?text=Hola!%20Quiero%20aprovechar%20el%2020%25%20OFF%20en%20mi%20primera%20reparaci%C3%B3n%20%F0%9F%94%A7" class="btn" target="_blank" rel="noopener">
-      <i class="fa-brands fa-whatsapp"></i> Aprovechar promoción
-    </a>
+<!-- SOLICITAR PRESUPUESTO -->
+<section id="presupuesto" class="tone-a">
+  <div class="container quote-grid">
+    <div class="reveal">
+      <div class="section-tag">Contacto</div>
+      <h2 class="section-title" style="font-size:clamp(2.2rem,5vw,3.6rem);">Solicitar <span style="color:var(--yellow)">presupuesto.</span></h2>
+      <div class="section-line"></div>
+      <p class="section-description" style="margin-bottom:24px;">Completá el formulario y te respondemos a la brevedad por WhatsApp.</p>
+      <ul class="quote-pts">
+        <li><b>Diagnóstico</b> gratuito y sin compromiso</li>
+        <li><b>Respuesta</b> en el día, en horario de atención</li>
+        <li><b>Garantía</b> escrita en cada reparación</li>
+      </ul>
+    </div>
+    <form class="quote-form reveal" id="quote-form">
+      <div class="full"><label for="q-nombre">Nombre y apellido <em>(opcional)</em></label><input id="q-nombre" name="nombre" placeholder="Ej: Juan Pérez" autocomplete="name"></div>
+      <div><label for="q-tel">WhatsApp *</label><input id="q-tel" name="tel" type="tel" required placeholder="11 1234-5678" autocomplete="tel"></div>
+      <div><label for="q-email">Email *</label><input id="q-email" name="email" type="email" required placeholder="tumail@ejemplo.com" autocomplete="email"></div>
+      <div class="full"><label for="q-equipo">Marca y modelo <em>(opcional)</em></label><input id="q-equipo" name="equipo" placeholder="Ej: iPhone 13, Samsung A54"></div>
+      <div class="full"><label for="q-falla">¿Qué le pasa a tu equipo? <em>(opcional)</em></label><textarea id="q-falla" name="falla" placeholder="Describí brevemente el problema…"></textarea></div>
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
+      <div class="full"><button class="quote-submit" type="submit"><i class="fa-solid fa-paper-plane"></i>&nbsp; Enviar consulta</button></div>
+      <div id="quote-ok">¡Consulta enviada! Te respondemos a la brevedad por WhatsApp.</div>
+      <div id="quote-err">No pudimos enviar tu consulta. Probá de nuevo o escribinos por <a href="https://wa.me/5491162575047?text=Hola!%20Quiero%20pedir%20un%20presupuesto" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;">WhatsApp</a>.</div>
+    </form>
   </div>
 </section>
 
 <!-- POR QUÉ ELEGIRNOS -->
-<section id="por-que-elegirnos">
+<section id="por-que-elegirnos" class="tone-b">
   <div class="container">
     <div class="section-tag reveal">Nuestro diferencial</div>
     <h2 class="section-title reveal">Tu celular en <span style="color:var(--yellow)">buenas manos.</span></h2>
@@ -704,7 +738,7 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
 <!-- ══════════════════════════════════════════
      SEGUIMIENTO DE REPARACIÓN ← NUEVA SECCIÓN
 ══════════════════════════════════════════ -->
-<section id="seguimiento" style="background:linear-gradient(180deg,rgba(247,180,27,.03) 0%,transparent 100%);">
+<section id="seguimiento" class="tone-a">
   <div class="container" style="max-width:760px;margin:auto;">
     <div class="section-tag reveal">¿Dónde está tu celular?</div>
     <h2 class="section-title reveal">Seguí tu <span style="color:var(--yellow)">reparación.</span></h2>
@@ -805,21 +839,26 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
 <!-- TESTIMONIOS -->
 <section id="testimonios">
   <div class="container">
-    <div class="section-tag reveal">Lo que dicen de nosotros</div>
-    <h2 class="section-title reveal">Clientes <span style="color:var(--yellow)">satisfechos.</span></h2>
-    <div class="section-line reveal"></div>
-    <p class="section-description reveal">Opiniones reales de clientes verificados en Google Maps — Caballito, Buenos Aires.</p>
-    <div class="testimonials-grid">
-      <div class="review-card reveal"><div class="review-source"><div class="review-source-icon google"><i class="fa-brands fa-google"></i></div><div><div style="font-size:.82rem;font-weight:700;color:white;">Google Reviews</div><div class="review-source-label">Reseña verificada</div></div><span class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verificado</span></div><div class="review-stars">★★★★★</div><p class="review-text">Me cambiaron el módulo y quedó igual que original, cumplieron con el tiempo que me dijeron.</p><div class="review-footer"><div class="review-avatar" style="background:#e53935;">I</div><div class="review-meta"><div class="review-name">Inari</div><div class="review-detail">Google · hace 7 semanas</div></div></div></div>
-      <div class="review-card reveal"><div class="review-source"><div class="review-source-icon google"><i class="fa-brands fa-google"></i></div><div><div style="font-size:.82rem;font-weight:700;color:white;">Google Reviews</div><div class="review-source-label">Reseña verificada</div></div><span class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verificado</span></div><div class="review-stars">★★★★★</div><p class="review-text">Super recomendable 😊</p><div class="review-footer"><div class="review-avatar" style="background:#6C27FF;">d</div><div class="review-meta"><div class="review-name">Daiana Retamar</div><div class="review-detail">Google · hace 4 semanas</div></div></div></div>
-      <div class="review-card reveal"><div class="review-source"><div class="review-source-icon google"><i class="fa-brands fa-google"></i></div><div><div style="font-size:.82rem;font-weight:700;color:white;">Google Reviews</div><div class="review-source-label">Reseña verificada</div></div><span class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verificado</span></div><div class="review-stars">★★★★★</div><p class="review-text">Excelente calidad, trato y trabajo entregado en tiempo y forma. Graciass</p><div class="review-footer"><div class="review-avatar" style="background:#34A853;">G</div><div class="review-meta"><div class="review-name">Gise Ortan</div><div class="review-detail">Google · hace 2 horas</div></div></div></div>
+    <div class="rv-head">
+      <h2 class="rv-title">Opiniones Reales</h2>
+      <div class="rv-line"></div>
+      <p class="rv-sub">Lo que dicen nuestros clientes luego de visitarnos</p>
     </div>
-    <p style="text-align:center;margin-top:32px;color:var(--gray);font-size:.88rem;"><i class="fa-brands fa-google" style="color:var(--yellow);"></i>&nbsp;Reseñas reales de clientes en Google Maps · Caballito, Buenos Aires</p>
+    <div class="rv-wrap"><div class="rv-track" id="rvTrack">
+      <div class="rv-card"><div class="rv-top"><span class="rv-stars">★★★★★</span><span class="rv-quote">”</span></div><p class="rv-text">"Excelente trato y comunicación, gracias Darío."</p><div class="rv-who"><div class="rv-av">C</div><div><span class="rv-name">Cristian Romero</span><span class="rv-role">Cliente verificado</span></div></div></div>
+      <div class="rv-card"><div class="rv-top"><span class="rv-stars">★★★★★</span><span class="rv-quote">”</span></div><p class="rv-text">"Excelente calidad, trato y trabajo entregado en tiempo y forma. Graciass"</p><div class="rv-who"><div class="rv-av">G</div><div><span class="rv-name">Gise Ortan</span><span class="rv-role">Cliente verificado</span></div></div></div>
+      <div class="rv-card"><div class="rv-top"><span class="rv-stars">★★★★★</span><span class="rv-quote">”</span></div><p class="rv-text">"La verdad un genio! Me solucionó un celular , 10 puntos, super recomendable y confiable!"</p><div class="rv-who"><div class="rv-av">T</div><div><span class="rv-name">Tobias Sotelo</span><span class="rv-role">Cliente verificado</span></div></div></div>
+      <div class="rv-card"><div class="rv-top"><span class="rv-stars">★★★★★</span><span class="rv-quote">”</span></div><p class="rv-text">"La atención y el servicio rápido e impecable, altamente recomendable. EL MEJOR"</p><div class="rv-who"><div class="rv-av">C</div><div><span class="rv-name">Charly Lucero</span><span class="rv-role">Cliente verificado</span></div></div></div>
+      <div class="rv-card"><div class="rv-top"><span class="rv-stars">★★★★★</span><span class="rv-quote">”</span></div><p class="rv-text">"Excelente servicio. 100% recomendado."</p><div class="rv-who"><div class="rv-av">A</div><div><span class="rv-name">Alexis Adrian Corbalan</span><span class="rv-role">Cliente verificado</span></div></div></div>
+      <div class="rv-card"><div class="rv-top"><span class="rv-stars">★★★★★</span><span class="rv-quote">”</span></div><p class="rv-text">"Realmente brinda un excelente servicio y asesoramiento. Llevé mi celular para cambiarle el modulo, quedó 10/10 y fue super rápido. Muy recomendable! 🙌🏻👏🏻👏🏻"</p><div class="rv-who"><div class="rv-av">B</div><div><span class="rv-name">Brisa Funes</span><span class="rv-role">Cliente verificado</span></div></div></div>
+      <div class="rv-card"><div class="rv-top"><span class="rv-stars">★★★★★</span><span class="rv-quote">”</span></div><p class="rv-text">"Super recomendable 😊"</p><div class="rv-who"><div class="rv-av">D</div><div><span class="rv-name">Daiana Retamar</span><span class="rv-role">Cliente verificado</span></div></div></div>
+      <div class="rv-card"><div class="rv-top"><span class="rv-stars">★★★★★</span><span class="rv-quote">”</span></div><p class="rv-text">"Me cambiaron el módulo y quedó igual que original, cumplieron con el tiempo que me dijeron."</p><div class="rv-who"><div class="rv-av">I</div><div><span class="rv-name">Inari</span><span class="rv-role">Cliente verificado</span></div></div></div>
+      </div></div>
   </div>
 </section>
 
 <!-- FAQ -->
-<section id="faq">
+<section id="faq" class="tone-a">
   <div class="container">
     <div class="section-tag reveal">Respondemos tus dudas</div>
     <h2 class="section-title reveal">Preguntas <span style="color:var(--yellow)">frecuentes.</span></h2>
@@ -837,7 +876,7 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
 </section>
 
 <!-- HORARIOS -->
-<section id="horarios">
+<section id="horarios" class="tone-b">
   <div class="container">
     <div class="section-tag reveal">Estamos esperándote</div>
     <h2 class="section-title reveal">¿Cuándo <span style="color:var(--yellow)">estamos?</span></h2>
@@ -852,23 +891,37 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
 </section>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-logo"><span>⚡ DAROO</span>CELL</div>
-    <p class="footer-desc">Servicio técnico de celulares en Caballito, Buenos Aires.<br>Reparamos iPhone, Samsung, Motorola, Xiaomi y más marcas con garantía.</p>
-    <a href="https://share.google/cV2Aoyag5J3tmhXgD" class="footer-location" target="_blank" rel="noopener" style="text-decoration:none;cursor:pointer;"><i class="fa-solid fa-location-dot"></i> Formosa 61, Caballito · Ver en Maps</a>
-    <div class="footer-divider"></div>
-    <div class="footer-social">
-      <a href="https://instagram.com/daroo.cell" class="footer-social-btn ig" target="_blank" rel="noopener"><div class="footer-social-icon ig-icon"><i class="fa-brands fa-instagram" style="color:white;font-size:1.15rem;"></i></div><div class="footer-social-info"><div class="footer-social-label">Instagram</div><div class="footer-social-handle">@daroo.cell</div></div></a>
-      <a href="https://wa.me/5491162575047" class="footer-social-btn wa" target="_blank" rel="noopener"><div class="footer-social-icon wa-icon"><i class="fa-brands fa-whatsapp" style="color:white;font-size:1.15rem;"></i></div><div class="footer-social-info"><div class="footer-social-label">WhatsApp</div><div class="footer-social-handle">11-6257-5047</div></div></a>
+<footer class="site-footer">
+  <div class="ft-in">
+    <div>
+      <span class="ft-logo"><svg class="bolt-ic" viewBox="0 0 16 24" aria-hidden="true"><use href="#bolt"/></svg><span>DAROO</span>CELL</span>
+      <p class="ft-ds">DarooCell es un servicio técnico especializado en reparación de celulares. Contamos con el equipo necesario para dar soluciones reales a fallas complejas, con garantía.</p>
     </div>
-    <div class="footer-hours">
-      <div class="footer-hour-pill"><div class="footer-hour-day">Lun — Vie</div><div class="footer-hour-time">08:00 — 21:00 hs</div></div>
-      <div class="footer-hour-pill"><div class="footer-hour-day">Sábados</div><div class="footer-hour-time">08:00 — 14:00 hs</div></div>
-      <div class="footer-hour-pill"><div class="footer-hour-day">Domingos</div><div class="footer-hour-time closed">Cerrado</div></div>
+    <div class="ft-lk">
+      <h4>Navegación</h4><u></u>
+      <a href="#">› Inicio</a>
+      <a href="#servicios">› Servicios</a>
+      <a href="#seguimiento">› Seguir mi reparación</a>
+      <a href="#por-que-elegirnos">› ¿Por qué elegirnos?</a>
+      <a href="#presupuesto">› Contacto</a>
+    </div>
+    <div class="ft-ct">
+      <h4>Contacto</h4><u></u>
+      <div><i class="fa-solid fa-location-dot"></i><a href="https://share.google/cV2Aoyag5J3tmhXgD" target="_blank" rel="noopener">Formosa 61<br>Caballito, CABA</a></div>
+      <div><i class="fa-solid fa-phone"></i><a href="https://wa.me/5491162575047" target="_blank" rel="noopener">+54 11 6257-5047</a></div>
+      <div><i class="fa-regular fa-clock"></i><span>Lun–Vie 08 a 21 hs<br>Sáb 08 a 14 hs</span></div>
+    </div>
+    <div class="ft-rs">
+      <h4>Redes Sociales</h4><u></u>
+      <p>Seguinos para ver trabajos diarios y promociones.</p>
+      <div class="ft-so">
+        <a href="https://instagram.com/daroo.cell" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://wa.me/5491162575047" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+      <a href="mailto:daroo.cell@gmail.com" class="ft-mail" aria-label="Enviar un mail"><i class="fa-solid fa-envelope"></i></a>
     </div>
   </div>
-  <div class="footer-bottom"><p class="footer-copy">© 2025 <span>DarooCell</span> · Servicio técnico de celulares en Caballito, Buenos Aires. Todos los derechos reservados.</p></div>
+  <div class="ft-cp">© 2026 <b>DarooCell</b> · Servicio técnico de celulares en Caballito, Buenos Aires. Todos los derechos reservados.</div>
 </footer>
 
 <!-- FLOAT WA -->
@@ -877,49 +930,12 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
   <span class="whatsapp-float-label">Escribinos</span>
 </a>
 
-<!-- PROMO FLOTANTE -->
-<a id="promoFloat" href="https://wa.me/5491162575047?text=Hola!%20Quiero%20aprovechar%20el%2020%25%20OFF%20en%20mi%20primera%20reparaci%C3%B3n%20%F0%9F%94%A7" target="_blank" rel="noopener" aria-label="20% OFF en tu primera reparación">
-  <div class="pf-title">20% OFF EN TU PRIMERA REPARACIÓN</div>
-  <div class="pf-sub">🔥 Para los primeros 20 clientes del mes</div>
-</a>
-
 <script>
 'use strict';
 
 /* ─── CONFIG SUPABASE ─── */
 const SB_URL = 'https://okzvxjlxidmydmxueihf.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9renZ4amx4aWRteWRteHVlaWhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwODg0MzUsImV4cCI6MjA5NTY2NDQzNX0.sevF9AukKhXtN9NGV9tsahmlW2fwygbeCMLxiXFSB14';
-
-/* ─── MARQUESINA ─── */
-(function(){
-  const items = [
-    {icon:'⚡',text:'20% OFF en tu primera reparación'},
-    {icon:'🔍',text:'Seguí el estado de tu celular en tiempo real'},
-    {icon:'🛡️',text:'Garantía en cada reparación'},
-    {icon:'🔧',text:'Diagnóstico gratuito y sin compromiso'},
-    {icon:'📍',text:'Formosa 61, Caballito · Buenos Aires'},
-    {icon:'📱',text:'iPhone · Samsung · Motorola · Xiaomi'},
-    {icon:'✅',text:'Repuestos de calidad'},
-    {icon:'💬',text:'WhatsApp: 11-6257-5047',link:'https://wa.me/5491162575047'},
-    {icon:'🔓',text:'Desbloqueo Cuenta Google · Xiaomi · Bypass'},
-    {icon:'🗓️',text:'Lun–Vie 8–21hs · Sáb 8–14hs'},
-  ];
-  const track = document.getElementById('marqueeTrack');
-  function buildItems(){
-    const frag = document.createDocumentFragment();
-    items.forEach(item=>{
-      const tag = item.link ? 'a' : 'span';
-      const el = document.createElement(tag);
-      el.className = 'marquee-item'+(item.link?' clickable':'');
-      if(item.link){el.href=item.link;el.target='_blank';el.rel='noopener';}
-      el.innerHTML = `<span>${item.icon}</span>${item.text}<span class="marquee-sep">✦</span>`;
-      frag.appendChild(el);
-    });
-    return frag;
-  }
-  track.appendChild(buildItems());
-  track.appendChild(buildItems());
-})();
 
 /* ═══════════════════════════════════════════════════════
    SEGUIMIENTO — LÓGICA PRINCIPAL
@@ -1129,6 +1145,67 @@ navDropdown.querySelectorAll('a[href^="#"]').forEach(a=>{
   });
 });
 
+document.querySelectorAll('.nav-desktop a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const h=a.getAttribute('href');
+    if(h==='#'){window.scrollTo({top:0,behavior:'smooth'});return;}
+    const target=document.querySelector(h);
+    if(target){const top=target.getBoundingClientRect().top+window.scrollY-110;window.scrollTo({top,behavior:'smooth'});}
+  });
+});
+
+/* ─── FORMULARIO DE PRESUPUESTO → mail (FormSubmit) ─── */
+(function(){
+  const form=document.getElementById('quote-form');
+  if(!form)return;
+  const ok=document.getElementById('quote-ok');
+  const err=document.getElementById('quote-err');
+  const btn=form.querySelector('.quote-submit');
+  const btnHTML=btn.innerHTML;
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+    ok.style.display='none';err.style.display='none';
+    const v=n=>form.elements[n].value.trim();
+    const data={
+      "Nombre":v('nombre')||'(no indicado)',
+      "WhatsApp":v('tel'),
+      "Email":v('email'),
+      "Equipo":v('equipo')||'(no indicado)',
+      "Problema":v('falla')||'(no indicado)',
+      "email":v('email'),
+      "_subject":"Nueva consulta de presupuesto - DarooCell",
+      "_template":"table",
+      "_captcha":"false",
+      "_honey":form.elements['_honey'].value
+    };
+    btn.disabled=true;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Enviando…';
+    try{
+      const r=await fetch('https://formsubmit.co/ajax/daroo.cell@gmail.com',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify(data)
+      });
+      const j=await r.json().catch(()=>({}));
+      if(r.ok && (j.success===true||j.success==='true')){
+        ok.style.display='block';
+        form.reset();
+      }else{
+        throw new Error('envio');
+      }
+    }catch(_){
+      err.style.display='block';
+    }finally{
+      btn.disabled=false;
+      btn.innerHTML=btnHTML;
+    }
+  });
+})();
+
+/* ─── CARRUSEL OPINIONES ─── */
+(function(){const t=document.getElementById('rvTrack');if(t){const h=t.innerHTML;t.innerHTML=h+h;}})();
+
 /* ─── REVEAL ─── */
 const reveals=document.querySelectorAll('.reveal');
 function revealOnScroll(){reveals.forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight-100)el.classList.add('active');});}
@@ -1144,57 +1221,6 @@ document.querySelectorAll('.faq-question').forEach(q=>{
     if(!isOpen)item.classList.add('open');
   });
 });
-
-/* ─── PROMO FLOTANTE ─── */
-(function(){
-  const float=document.getElementById('promoFloat');
-  const promo=document.getElementById('promo');
-  let isAnimating=false,isDockedToReal=false;
-  const observer=new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(isAnimating)return;
-      if(entry.isIntersecting){if(!isDockedToReal&&float.classList.contains('visible'))hideFloat(true);}
-      else{if(isDockedToReal||!float.classList.contains('visible'))showFloat(true);}
-    });
-  },{threshold:0.4});
-  observer.observe(promo);
-  function showFloat(animate){
-    if(!animate){float.style.transition='none';float.style.transform='none';float.style.opacity='1';float.classList.add('visible');return;}
-    isAnimating=true;isDockedToReal=false;
-    const realRect=promo.getBoundingClientRect();const floatRect=float.getBoundingClientRect();
-    const dx=realRect.left+realRect.width/2-(floatRect.left+floatRect.width/2);
-    const dy=realRect.top+realRect.height/2-(floatRect.top+floatRect.height/2);
-    const scaleX=realRect.width/floatRect.width;const scaleY=realRect.height/floatRect.height;
-    float.style.transition='none';float.style.opacity='0';float.style.transform=`translate(${dx}px,${dy}px) scale(${scaleX},${scaleY})`;float.classList.add('visible');
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      float.style.transition='transform .55s cubic-bezier(.34,1.56,.64,1), opacity .35s ease';float.style.opacity='1';float.style.transform='none';
-      float.addEventListener('transitionend',()=>{isAnimating=false;},{once:true});
-    }));
-  }
-  function hideFloat(animate){
-    if(!animate){float.style.transition='none';float.style.opacity='0';float.classList.remove('visible');return;}
-    isAnimating=true;isDockedToReal=true;
-    const floatRect=float.getBoundingClientRect();const realRect=promo.getBoundingClientRect();
-    const dx=realRect.left+realRect.width/2-(floatRect.left+floatRect.width/2);
-    const dy=realRect.top+realRect.height/2-(floatRect.top+floatRect.height/2);
-    const scaleX=realRect.width/floatRect.width;const scaleY=realRect.height/floatRect.height;
-    float.style.transition='transform .5s cubic-bezier(.4,0,.2,1), opacity .35s ease .15s';
-    float.style.transform=`translate(${dx}px,${dy}px) scale(${scaleX},${scaleY})`;float.style.opacity='0';
-    float.addEventListener('transitionend',()=>{float.classList.remove('visible');float.style.transform='none';isAnimating=false;},{once:true});
-  }
-  setTimeout(()=>{const r=promo.getBoundingClientRect();const inView=r.top<window.innerHeight&&r.bottom>0;if(!inView)showFloat(false);},800);
-})();
-
-(function(){
-  const pf=document.getElementById('promoFloat');const wa=document.querySelector('.whatsapp-float-btn');
-  if(!pf||!wa)return;
-  function sync(){const waR=wa.getBoundingClientRect();pf.style.right=(window.innerWidth-waR.right)+'px';pf.style.width=waR.width+'px';pf.style.bottom=(window.innerHeight-waR.top+8)+'px';pf.style.top='auto';pf.style.boxSizing='border-box';}
-  if(document.readyState==='complete')sync();else window.addEventListener('load',sync);
-  setTimeout(sync,100);setTimeout(sync,500);
-  new ResizeObserver(sync).observe(wa);
-  window.addEventListener('resize',sync);
-  window.addEventListener('scroll',sync,{passive:true});
-})();
 
 // URL param: si viene con ?c=DAR-XXXXX, auto-consultar
 (function(){
