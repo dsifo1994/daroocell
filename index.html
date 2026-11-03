@@ -712,7 +712,7 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
       <div><label for="q-email">Email *</label><input id="q-email" name="email" type="email" required placeholder="tumail@ejemplo.com" autocomplete="email"></div>
       <div class="full"><label for="q-equipo">Marca y modelo <em>(opcional)</em></label><input id="q-equipo" name="equipo" placeholder="Ej: iPhone 13, Samsung A54"></div>
       <div class="full"><label for="q-falla">¿Qué le pasa a tu equipo? <em>(opcional)</em></label><textarea id="q-falla" name="falla" placeholder="Describí brevemente el problema…"></textarea></div>
-      <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
+      <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
       <div class="full"><button class="quote-submit" type="submit"><i class="fa-solid fa-paper-plane"></i>&nbsp; Enviar consulta</button></div>
       <div id="quote-ok">¡Consulta enviada! Te respondemos a la brevedad por WhatsApp.</div>
       <div id="quote-err">No pudimos enviar tu consulta. Probá de nuevo o escribinos por <a href="https://wa.me/5491162575047?text=Hola!%20Quiero%20pedir%20un%20presupuesto" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;">WhatsApp</a>.</div>
@@ -1155,7 +1155,7 @@ document.querySelectorAll('.nav-desktop a[href^="#"]').forEach(a=>{
   });
 });
 
-/* ─── FORMULARIO DE PRESUPUESTO → mail (FormSubmit) ─── */
+/* ─── FORMULARIO DE PRESUPUESTO → mail (Web3Forms) ─── */
 (function(){
   const form=document.getElementById('quote-form');
   if(!form)return;
@@ -1163,33 +1163,38 @@ document.querySelectorAll('.nav-desktop a[href^="#"]').forEach(a=>{
   const err=document.getElementById('quote-err');
   const btn=form.querySelector('.quote-submit');
   const btnHTML=btn.innerHTML;
+  const ACCESS_KEY='10b794a6-f3df-43ba-ae7a-caf44640f75e';
   form.addEventListener('submit',async function(e){
     e.preventDefault();
     ok.style.display='none';err.style.display='none';
     const v=n=>form.elements[n].value.trim();
-    const fd=new FormData();
-    fd.append('Nombre',v('nombre')||'(no indicado)');
-    fd.append('WhatsApp',v('tel'));
-    fd.append('Email',v('email'));
-    fd.append('Equipo',v('equipo')||'(no indicado)');
-    fd.append('Problema',v('falla')||'(no indicado)');
-    fd.append('email',v('email'));
-    fd.append('_subject','Nueva consulta de presupuesto - DarooCell');
-    fd.append('_template','table');
-    fd.append('_captcha','false');
-    fd.append('_honey',form.elements['_honey'].value);
+    const payload={
+      access_key:ACCESS_KEY,
+      subject:'Nueva consulta de presupuesto - DarooCell',
+      from_name:'Web DarooCell',
+      name:v('nombre')||'(no indicado)',
+      email:v('email'),
+      whatsapp:v('tel'),
+      equipo:v('equipo')||'(no indicado)',
+      problema:v('falla')||'(no indicado)',
+      botcheck:form.elements['botcheck'].checked
+    };
     btn.disabled=true;
     btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Enviando…';
     try{
-      /* no-cors: evita el bloqueo CORS del navegador. El mail se envía igual;
-         la respuesta no es legible, así que se da por enviado si la conexión funcionó. */
-      await fetch('https://formsubmit.co/ajax/daroo.cell@gmail.com',{
+      const r=await fetch('https://api.web3forms.com/submit',{
         method:'POST',
-        mode:'no-cors',
-        body:fd
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify(payload)
       });
-      ok.style.display='block';
-      form.reset();
+      const j=await r.json().catch(()=>({}));
+      if(r.ok && j.success){
+        ok.style.display='block';
+        form.reset();
+      }else{
+        console.warn('[presupuesto] Web3Forms respondió',r.status,j);
+        throw new Error('envio');
+      }
     }catch(ex){
       console.warn('[presupuesto] no se pudo enviar',ex);
       err.style.display='block';
