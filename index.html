@@ -1167,34 +1167,31 @@ document.querySelectorAll('.nav-desktop a[href^="#"]').forEach(a=>{
     e.preventDefault();
     ok.style.display='none';err.style.display='none';
     const v=n=>form.elements[n].value.trim();
-    const data={
-      "Nombre":v('nombre')||'(no indicado)',
-      "WhatsApp":v('tel'),
-      "Email":v('email'),
-      "Equipo":v('equipo')||'(no indicado)',
-      "Problema":v('falla')||'(no indicado)',
-      "email":v('email'),
-      "_subject":"Nueva consulta de presupuesto - DarooCell",
-      "_template":"table",
-      "_captcha":"false",
-      "_honey":form.elements['_honey'].value
-    };
+    const fd=new FormData();
+    fd.append('Nombre',v('nombre')||'(no indicado)');
+    fd.append('WhatsApp',v('tel'));
+    fd.append('Email',v('email'));
+    fd.append('Equipo',v('equipo')||'(no indicado)');
+    fd.append('Problema',v('falla')||'(no indicado)');
+    fd.append('email',v('email'));
+    fd.append('_subject','Nueva consulta de presupuesto - DarooCell');
+    fd.append('_template','table');
+    fd.append('_captcha','false');
+    fd.append('_honey',form.elements['_honey'].value);
     btn.disabled=true;
     btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Enviando…';
     try{
-      const r=await fetch('https://formsubmit.co/ajax/daroo.cell@gmail.com',{
+      /* no-cors: evita el bloqueo CORS del navegador. El mail se envía igual;
+         la respuesta no es legible, así que se da por enviado si la conexión funcionó. */
+      await fetch('https://formsubmit.co/ajax/daroo.cell@gmail.com',{
         method:'POST',
-        headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body:JSON.stringify(data)
+        mode:'no-cors',
+        body:fd
       });
-      const j=await r.json().catch(()=>({}));
-      if(r.ok && (j.success===true||j.success==='true')){
-        ok.style.display='block';
-        form.reset();
-      }else{
-        throw new Error('envio');
-      }
-    }catch(_){
+      ok.style.display='block';
+      form.reset();
+    }catch(ex){
+      console.warn('[presupuesto] no se pudo enviar',ex);
       err.style.display='block';
     }finally{
       btn.disabled=false;
