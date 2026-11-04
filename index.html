@@ -228,15 +228,22 @@ header{position:fixed;top:0;left:0;width:100%;z-index:999;backdrop-filter:blur(1
 .section-description{max-width:700px;font-size:1.05rem;line-height:1.8;color:var(--gray);margin-bottom:55px;}
 
 /* SERVICES */
-.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;}
-.service-card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid rgba(247,180,27,.12);border-radius:26px;padding:28px;transition:.35s;position:relative;overflow:hidden;}
-.service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(247,180,27,.08),transparent 45%);opacity:0;transition:.35s;}
-.service-card:hover::before{opacity:1;}
-.service-card:hover{transform:translateY(-8px);border-color:rgba(247,180,27,.25);}
-.service-icon{width:62px;height:62px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:rgba(247,180,27,.05);border:1px solid rgba(247,180,27,.12);margin-bottom:24px;}
-.service-icon i{font-size:1.4rem;color:var(--yellow);}
-.service-card h3{font-size:1.4rem;font-weight:800;margin-bottom:14px;}
-.service-card p{font-size:1rem;line-height:1.8;color:var(--gray);}
+.services-head{text-align:center;max-width:700px;margin:0 auto 52px;}
+.services-head .section-line{margin:20px auto;}
+.services-head .section-description{margin:0 auto;}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.service-card{padding:30px 28px 32px;border-radius:22px;border:1px solid rgba(247,180,27,.14);background:rgba(255,255,255,.03);}
+.services-grid .service-card.reveal{transition:opacity 1s ease,transform 1s ease,translate .3s ease,border-color .3s ease,background .3s ease;}
+.service-card:hover{translate:0 -6px;border-color:rgba(247,180,27,.5);background:rgba(247,180,27,.05);}
+.service-icon{width:54px;height:54px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:rgba(247,180,27,.08);border:1px solid rgba(247,180,27,.16);margin-bottom:22px;transition:.3s;}
+.service-icon i{font-size:1.4rem;color:var(--yellow);transition:.3s;}
+.service-card:hover .service-icon{background:var(--yellow);border-color:var(--yellow);}
+.service-card:hover .service-icon i{color:#0B1020;}
+.service-card h3{font-size:1.2rem;font-weight:800;margin-bottom:10px;}
+.service-card p{font-size:.97rem;line-height:1.7;color:var(--gray);}
+.services-foot{text-align:center;margin-top:36px;color:var(--gray);font-size:.95rem;}
+.services-foot b{color:var(--yellow);font-weight:700;}
+@media(prefers-reduced-motion:reduce){.service-card:hover{translate:none;}}
 
 /* BENEFITS */
 .benefits-grid-cols{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
@@ -667,28 +674,21 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
 <!-- SERVICIOS -->
 <section id="servicios" class="tone-b">
   <div class="container">
-    <h2 class="section-title reveal">Nuestros <span style="color:var(--yellow)">Servicios.</span></h2>
-    <div class="section-line reveal"></div>
-    <p class="section-description reveal">Reparación de celulares en Caballito con repuestos de calidad. iPhone, Samsung, Motorola, Xiaomi, LG, Huawei y más.</p>
-    <div class="brands-row reveal" style="margin-bottom:44px;margin-top:0;">
-      <div class="brand-pill"><i class="fa-brands fa-apple"></i> iPhone</div>
-      <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> Samsung</div>
-      <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> Motorola</div>
-      <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> Xiaomi</div>
-      <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> LG</div>
-      <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> Huawei</div>
-      <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> Sony</div>
-      <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> Nokia</div>
-      <div class="brand-pill"><i class="fa-solid fa-mobile-screen-button"></i> ZTE</div>
+    <div class="services-head">
+      <div class="section-tag reveal">Qué hacemos</div>
+      <h2 class="section-title reveal" style="font-size:clamp(2.2rem,5.5vw,3.8rem);letter-spacing:-2px;">Nuestros <span style="color:var(--yellow)">Servicios.</span></h2>
+      <div class="section-line reveal"></div>
+      <p class="section-description reveal">Reparamos tu celular en Caballito con repuestos de calidad y garantía en cada trabajo. iPhone, Samsung, Motorola, Xiaomi, LG, Huawei y más.</p>
     </div>
     <div class="services-grid">
-      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-mobile-screen"></i></div><h3>Cambio de Pantalla</h3><p>Módulos originales y compatibles para todas las marcas: iPhone, Samsung, Motorola, Xiaomi y más.</p></div>
-      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-battery-full"></i></div><h3>Cambio de Batería</h3><p>Reemplazamos tu batería y tu equipo vuelve a durar como el primer día. Todas las marcas.</p></div>
-      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-bolt"></i></div><h3>Pin de Carga</h3><p>Reparación y cambio del conector de carga. No carga tu celular — lo solucionamos.</p></div>
-      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-lock-open"></i></div><h3>Cuenta Google / FRP</h3><p>Desbloqueo de cuenta Google y FRP en equipos Android de todas las marcas.</p></div>
-      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-laptop"></i></div><h3>Software y Flasheo</h3><p>Optimización, flasheo y recuperación de sistema en iPhone, Samsung, Motorola y más.</p></div>
-      <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div><h3>Reparaciones Generales</h3><p>Soluciones para múltiples fallas de hardware. Diagnóstico gratuito sin compromiso.</p></div>
+      <article class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-mobile-screen"></i></div><h3>Cambio de Pantalla</h3><p>Reemplazamos pantallas rotas o con fallas de táctil, con módulos originales y alternativos de calidad.</p></article>
+      <article class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-battery-full"></i></div><h3>Cambio de Batería</h3><p>Si tu celular se queda sin carga enseguida, le colocamos una batería nueva y recupera su autonomía.</p></article>
+      <article class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-bolt"></i></div><h3>Pin de Carga</h3><p>Reparamos o cambiamos el conector cuando el equipo no carga, carga lento o hace falso contacto.</p></article>
+      <article class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-lock-open"></i></div><h3>Cuenta Google / FRP</h3><p>Realizamos el desbloqueo de cuenta Google y FRP en equipos Android de todas las marcas.</p></article>
+      <article class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-laptop"></i></div><h3>Software y Flasheo</h3><p>Actualización, flasheo y recuperación del sistema cuando el equipo anda lento o se cuelga.</p></article>
+      <article class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div><h3>Reparaciones Generales</h3><p>¿Tenés otra falla? Revisamos tu equipo sin cargo y te pasamos el precio antes de empezar.</p></article>
     </div>
+    <p class="services-foot reveal"><b>Diagnóstico gratuito</b> y garantía en todas las reparaciones.</p>
   </div>
 </section>
 
@@ -699,7 +699,7 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
       <div class="section-tag">Contacto</div>
       <h2 class="section-title" style="font-size:clamp(2.2rem,5vw,3.6rem);">Solicitar <span style="color:var(--yellow)">presupuesto.</span></h2>
       <div class="section-line"></div>
-      <p class="section-description" style="margin-bottom:24px;">Completá el formulario y te respondemos a la brevedad por WhatsApp.</p>
+      <p class="section-description" style="margin-bottom:24px;">Completá el formulario y te respondemos a la brevedad por mail o por WhatsApp.</p>
       <ul class="quote-pts">
         <li><b>Diagnóstico</b> gratuito y sin compromiso</li>
         <li><b>Respuesta</b> en el día, en horario de atención</li>
@@ -708,13 +708,13 @@ html.intro-active,html.intro-active body{overflow:hidden;height:100%;}
     </div>
     <form class="quote-form reveal" id="quote-form">
       <div class="full"><label for="q-nombre">Nombre y apellido <em>(opcional)</em></label><input id="q-nombre" name="nombre" placeholder="Ej: Juan Pérez" autocomplete="name"></div>
-      <div><label for="q-tel">WhatsApp *</label><input id="q-tel" name="tel" type="tel" required placeholder="11 1234-5678" autocomplete="tel"></div>
+      <div><label for="q-tel">WhatsApp <em>(opcional)</em></label><input id="q-tel" name="tel" type="tel" placeholder="11 1234-5678" autocomplete="tel"></div>
       <div><label for="q-email">Email *</label><input id="q-email" name="email" type="email" required placeholder="tumail@ejemplo.com" autocomplete="email"></div>
       <div class="full"><label for="q-equipo">Marca y modelo <em>(opcional)</em></label><input id="q-equipo" name="equipo" placeholder="Ej: iPhone 13, Samsung A54"></div>
       <div class="full"><label for="q-falla">¿Qué le pasa a tu equipo? <em>(opcional)</em></label><textarea id="q-falla" name="falla" placeholder="Describí brevemente el problema…"></textarea></div>
       <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
       <div class="full"><button class="quote-submit" type="submit"><i class="fa-solid fa-paper-plane"></i>&nbsp; Enviar consulta</button></div>
-      <div id="quote-ok">¡Consulta enviada! Te respondemos a la brevedad por WhatsApp.</div>
+      <div id="quote-ok">¡Consulta enviada! Te respondemos a la brevedad.</div>
       <div id="quote-err">No pudimos enviar tu consulta. Probá de nuevo o escribinos por <a href="https://wa.me/5491162575047?text=Hola!%20Quiero%20pedir%20un%20presupuesto" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;">WhatsApp</a>.</div>
     </form>
   </div>
@@ -1174,7 +1174,7 @@ document.querySelectorAll('.nav-desktop a[href^="#"]').forEach(a=>{
       from_name:'Web DarooCell',
       name:v('nombre')||'(no indicado)',
       email:v('email'),
-      whatsapp:v('tel'),
+      whatsapp:v('tel')||'(no indicado)',
       equipo:v('equipo')||'(no indicado)',
       problema:v('falla')||'(no indicado)',
       botcheck:form.elements['botcheck'].checked
