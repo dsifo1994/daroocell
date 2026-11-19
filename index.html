@@ -1319,5 +1319,130 @@ document.querySelectorAll('.faq-question').forEach(q=>{
   setTimeout(()=>{ if(!seen && html.classList.contains('intro-active')) endIntro(); },4000);
 })();
 </script>
+<!-- ===== CHAT EN VIVO · DARIO ===== -->
+<style>
+#dc-btn{position:fixed;right:20px;bottom:calc(92px + env(safe-area-inset-bottom));z-index:9998;display:flex;align-items:center;gap:10px;background:#F7B41B;color:#0B1020;border:0;padding:13px 20px;border-radius:50px;font:800 .95rem Inter,sans-serif;cursor:pointer;box-shadow:0 4px 24px rgba(247,180,27,.4);transition:transform .2s}
+#dc-btn:hover{transform:translateY(-3px)}
+#dc-btn svg{width:20px;height:20px;flex-shrink:0}
+#dc-dot{display:none;position:absolute;top:-6px;right:-2px;min-width:20px;height:20px;border-radius:10px;background:#e5484d;color:#fff;font-size:.72rem;line-height:20px;text-align:center;padding:0 5px}
+#dc-box{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:10001;width:370px;max-width:calc(100vw - 24px);height:min(560px,calc(100dvh - 40px));display:none;flex-direction:column;background:#111729;border:1px solid rgba(247,180,27,.25);border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.55);font-family:Inter,sans-serif;color:#fff}
+#dc-box.open{display:flex}
+.dc-head{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#0B1020;border-bottom:1px solid rgba(247,180,27,.15)}
+.dc-av{width:40px;height:40px;border-radius:50%;background:#F7B41B;color:#0B1020;font-weight:800;font-size:1.15rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dc-t{flex:1;min-width:0;line-height:1.25}.dc-t b{display:block;font-size:1rem}.dc-t span{font-size:.78rem;opacity:.7}
+.dc-x{background:none;border:0;color:#fff;font-size:1.6rem;cursor:pointer;opacity:.7;line-height:1;padding:4px 8px}.dc-x:hover{opacity:1}
+#dc-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.dc-m{max-width:82%;padding:10px 13px;border-radius:16px;font-size:.93rem;line-height:1.4;white-space:pre-wrap;overflow-wrap:anywhere}
+.dc-m.v{align-self:flex-end;background:#F7B41B;color:#0B1020;border-bottom-right-radius:5px}
+.dc-m.a{align-self:flex-start;background:#1d2540;border-bottom-left-radius:5px}
+.dc-m.a small{display:block;font-size:.72rem;font-weight:700;opacity:.65;margin-bottom:2px}
+.dc-m.n{align-self:center;max-width:92%;background:none;font-size:.78rem;opacity:.65;text-align:center;padding:2px}
+.dc-foot{padding:12px;border-top:1px solid rgba(255,255,255,.08);background:#0B1020}
+#dc-name{width:100%;margin-bottom:8px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#111729;color:#fff;font:inherit;font-size:.88rem}
+.dc-row{display:flex;gap:8px;align-items:flex-end}
+#dc-in{flex:1;resize:none;max-height:110px;padding:11px 13px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#111729;color:#fff;font:inherit;font-size:.93rem;line-height:1.35}
+#dc-name:focus,#dc-in:focus{outline:2px solid #F7B41B;outline-offset:0}
+#dc-send{width:44px;height:44px;border-radius:12px;border:0;background:#F7B41B;color:#0B1020;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+#dc-send:disabled{opacity:.5;cursor:default}
+@media(max-width:600px){#dc-btn{right:16px;bottom:calc(84px + env(safe-area-inset-bottom));padding:12px 16px;font-size:.9rem}#dc-box{left:12px;right:12px;width:auto;max-width:none;bottom:12px;height:min(640px,calc(100dvh - 24px))}}
+@media(prefers-reduced-motion:reduce){#dc-btn{transition:none}}
+</style>
+
+<button id="dc-btn" type="button" aria-label="Abrir chat con Dario">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+  <span>Chateá con Dario</span><span id="dc-dot"></span>
+</button>
+
+<div id="dc-box" role="dialog" aria-label="Chat con Dario">
+  <div class="dc-head">
+    <div class="dc-av" aria-hidden="true">D</div>
+    <div class="dc-t"><b>Dario</b><span>DarooCell · Te respondo por acá</span></div>
+    <button class="dc-x" id="dc-close" type="button" aria-label="Cerrar chat">&times;</button>
+  </div>
+  <div id="dc-msgs" aria-live="polite"></div>
+  <div class="dc-foot">
+    <input id="dc-name" type="text" maxlength="60" placeholder="Tu nombre (opcional)" autocomplete="given-name">
+    <div class="dc-row">
+      <textarea id="dc-in" rows="1" maxlength="2000" placeholder="Escribí tu consulta…" aria-label="Mensaje"></textarea>
+      <button id="dc-send" type="button" aria-label="Enviar mensaje"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+var URL='https://xmpedfrpjblabbvrqqiu.supabase.co';
+var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhtcGVkZnJwamJsYWJidnJxcWl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUxMjI2MDEsImV4cCI6MjExMDY5ODYwMX0.L482o-oh-uX-NgkP_ywKvRHIPMJeKOWyPDFu9UkyqHs';
+var $=function(i){return document.getElementById(i)};
+var btn=$('dc-btn'),box=$('dc-box'),list=$('dc-msgs'),inp=$('dc-in'),nameI=$('dc-name'),dot=$('dc-dot'),sendB=$('dc-send');
+function uuid(){if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){var r=Math.random()*16|0;return(c==='x'?r:(r&3|8)).toString(16)})}
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+var token=ls('dc_tok');if(!token){token=uuid();ls('dc_tok',token)}
+var last=0,seen=parseInt(ls('dc_seen')||'0',10),unread=0,started=false,timer=null,noted=false;
+
+function rpc(fn,args){
+  return fetch(URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json'},body:JSON.stringify(args)})
+  .then(function(r){return r.text().then(function(t){var j=null;try{j=t?JSON.parse(t):null}catch(e){}if(!r.ok)throw new Error(j&&j.message||'error');return j})});
+}
+function add(kind,text,temp){
+  var d=document.createElement('div');d.className='dc-m '+kind;
+  if(kind==='a'){var s=document.createElement('small');s.textContent='Dario';d.appendChild(s)}
+  d.appendChild(document.createTextNode(text));
+  if(temp)d.setAttribute('data-temp','1');
+  list.appendChild(d);list.scrollTop=list.scrollHeight;return d;
+}
+function isOpen(){return box.classList.contains('open')}
+function badge(){if(unread>0&&!isOpen()){dot.textContent=unread;dot.style.display='block'}else dot.style.display='none'}
+function poll(){
+  return rpc('chat_fetch',{p_token:token,p_after:last}).then(function(rows){
+    if(!rows||!rows.length)return;
+    var t=list.querySelectorAll('[data-temp]');for(var i=0;i<t.length;i++)t[i].remove();
+    rows.forEach(function(m){
+      last=Math.max(last,m.id);started=true;
+      add(m.sender==='admin'?'a':'v',m.body);
+      if(m.sender==='admin'&&m.id>seen)unread++;
+    });
+    nameI.style.display='none';
+    if(isOpen()){seen=last;ls('dc_seen',String(seen));unread=0}
+    badge();
+  });
+}
+function loop(){
+  clearTimeout(timer);
+  if(!document.hidden&&(started||isOpen()))poll().catch(function(){});
+  timer=setTimeout(loop,isOpen()?3000:15000);
+}
+function open(){
+  box.classList.add('open');btn.style.display='none';unread=0;badge();
+  seen=last;ls('dc_seen',String(seen));
+  setTimeout(function(){inp.focus()},50);loop();
+}
+function close(){box.classList.remove('open');btn.style.display='flex'}
+function send(){
+  var t=inp.value.trim();if(!t||sendB.disabled)return;
+  var n=nameI.value.trim();sendB.disabled=true;
+  var tmp=add('v',t,true);inp.value='';inp.style.height='auto';
+  rpc('chat_send',{p_token:token,p_name:n||null,p_body:t}).then(function(){
+    started=true;nameI.style.display='none';
+    return poll().then(function(){
+      if(!noted){noted=true;add('n','Te respondo apenas pueda. Si es urgente, escribime por WhatsApp al 11-6257-5047.')}
+    });
+  }).catch(function(e){
+    tmp.remove();inp.value=t;
+    add('n',/rate_limit|busy/.test(e.message)?'Estás escribiendo muy rápido. Probá de nuevo en un minuto.':'No pudimos enviar tu mensaje. Escribinos por WhatsApp al 11-6257-5047.');
+  }).then(function(){sendB.disabled=false;inp.focus()});
+}
+add('a','¡Hola! Soy Dario, de DarooCell. Contame qué necesitás y te respondo por acá.');
+btn.addEventListener('click',open);
+$('dc-close').addEventListener('click',close);
+sendB.addEventListener('click',send);
+inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
+inp.addEventListener('input',function(){inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,110)+'px'});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&isOpen())close()});
+poll().then(function(){if(started)loop()}).catch(function(){});
+})();
+</script>
+<!-- ===== /CHAT EN VIVO ===== -->
+
 </body>
 </html>
