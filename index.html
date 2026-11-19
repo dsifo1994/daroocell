@@ -1357,7 +1357,7 @@ document.querySelectorAll('.faq-question').forEach(q=>{
   <div class="dc-head">
     <div class="dc-av" aria-hidden="true">D</div>
     <div class="dc-t"><b>Dario</b><span>DarooCell · Te respondo por acá</span></div>
-    <button class="dc-x" id="dc-close" type="button" aria-label="Cerrar chat">&times;</button>
+    <button class="dc-x" id="dc-close" type="button" aria-label="Minimizar chat" title="Minimizar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
   </div>
   <div id="dc-msgs" aria-live="polite"></div>
   <div class="dc-foot">
@@ -1415,7 +1415,7 @@ function loop(){
 function open(){
   box.classList.add('open');btn.style.display='none';unread=0;badge();
   seen=last;ls('dc_seen',String(seen));
-  setTimeout(function(){inp.focus()},50);loop();
+  list.scrollTop=list.scrollHeight;setTimeout(function(){inp.focus()},50);loop();
 }
 function close(){box.classList.remove('open');btn.style.display='flex'}
 function send(){
