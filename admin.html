@@ -104,9 +104,10 @@ button{font:inherit;cursor:pointer}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
-var URL='https://xmpedfrpjblabbvrqqiu.supabase.co';
+var SB_URL='https://xmpedfrpjblabbvrqqiu.supabase.co';
 var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhtcGVkZnJwamJsYWJidnJxcWl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUxMjI2MDEsImV4cCI6MjExMDY5ODYwMX0.L482o-oh-uX-NgkP_ywKvRHIPMJeKOWyPDFu9UkyqHs';
-var sb=supabase.createClient(URL,KEY);
+if(!window.supabase){document.body.innerHTML='<p style="padding:30px;font-family:sans-serif;color:#fff">No se pudo cargar el panel. Revisá tu conexión o desactivá el bloqueador de anuncios y recargá.</p>';throw new Error('supabase no cargó')}
+var sb=supabase.createClient(SB_URL,KEY);
 var $=function(i){return document.getElementById(i)};
 var convs={},prev={},cur=null,shown={},started=false,pending=0,baseTitle=document.title,actx=null;
 
