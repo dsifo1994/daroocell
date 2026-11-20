@@ -1344,6 +1344,8 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 #dc-name:focus,#dc-in:focus{outline:2px solid #F7B41B;outline-offset:0}
 #dc-send{width:44px;height:44px;border-radius:12px;border:0;background:#F7B41B;color:#0B1020;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 #dc-send:disabled{opacity:.5;cursor:default}
+#dc-clip{width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#111729;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}#dc-clip:hover{border-color:#F7B41B}#dc-clip:disabled{opacity:.5;cursor:default}
+.dc-m img{display:block;max-width:100%;border-radius:10px}
 @media(max-width:600px){#dc-btn{right:16px;bottom:calc(84px + env(safe-area-inset-bottom));padding:12px 16px;font-size:.9rem}#dc-box{left:12px;right:12px;width:auto;max-width:none;bottom:12px;height:min(640px,calc(100dvh - 24px))}}
 @media(prefers-reduced-motion:reduce){#dc-btn{transition:none}}
 </style>
@@ -1363,6 +1365,7 @@ document.querySelectorAll('.faq-question').forEach(q=>{
   <div class="dc-foot">
     <input id="dc-name" type="text" maxlength="60" placeholder="Tu nombre (opcional)" autocomplete="given-name">
     <div class="dc-row">
+      <button id="dc-clip" type="button" aria-label="Adjuntar foto" title="Adjuntar foto"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.5l-8.6 8.6a5.5 5.5 0 0 1-7.8-7.8l9-9a3.7 3.7 0 0 1 5.2 5.2l-9 9a1.8 1.8 0 0 1-2.6-2.6l8.4-8.4"/></svg></button><input id="dc-file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
       <textarea id="dc-in" rows="1" maxlength="2000" placeholder="Escribí tu consulta…" aria-label="Mensaje"></textarea>
       <button id="dc-send" type="button" aria-label="Enviar mensaje"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button>
     </div>
@@ -1371,7 +1374,7 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 
 <script>
 (function(){
-var URL='https://xmpedfrpjblabbvrqqiu.supabase.co';
+var SBU='https://xmpedfrpjblabbvrqqiu.supabase.co';
 var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhtcGVkZnJwamJsYWJidnJxcWl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUxMjI2MDEsImV4cCI6MjExMDY5ODYwMX0.L482o-oh-uX-NgkP_ywKvRHIPMJeKOWyPDFu9UkyqHs';
 var $=function(i){return document.getElementById(i)};
 var btn=$('dc-btn'),box=$('dc-box'),list=$('dc-msgs'),inp=$('dc-in'),nameI=$('dc-name'),dot=$('dc-dot'),sendB=$('dc-send');
@@ -1381,7 +1384,7 @@ var token=ls('dc_tok');if(!token){token=uuid();ls('dc_tok',token)}
 var last=0,seen=parseInt(ls('dc_seen')||'0',10),unread=0,started=false,timer=null,noted=false;
 
 function rpc(fn,args){
-  return fetch(URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json'},body:JSON.stringify(args)})
+  return fetch(SBU+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json'},body:JSON.stringify(args)})
   .then(function(r){return r.text().then(function(t){var j=null;try{j=t?JSON.parse(t):null}catch(e){}if(!r.ok)throw new Error(j&&j.message||'error');return j})});
 }
 function add(kind,text,temp){
@@ -1399,7 +1402,7 @@ function poll(){
     var t=list.querySelectorAll('[data-temp]');for(var i=0;i<t.length;i++)t[i].remove();
     rows.forEach(function(m){
       last=Math.max(last,m.id);started=true;
-      add(m.sender==='admin'?'a':'v',m.body);
+      if(m.image_path){addImg(m.sender==='admin'?'a':'v',sent[m.image_path])}else add(m.sender==='admin'?'a':'v',m.body);
       if(m.sender==='admin'&&m.id>seen)unread++;
     });
     nameI.style.display='none';
@@ -1432,6 +1435,41 @@ function send(){
     add('n',/rate_limit|busy/.test(e.message)?'Estás escribiendo muy rápido. Probá de nuevo en un minuto.':'No pudimos enviar tu mensaje. Escribinos por WhatsApp al 11-6257-5047.');
   }).then(function(){sendB.disabled=false;inp.focus()});
 }
+var sent={},mdl=null,clip=$('dc-clip'),fileI=$('dc-file');
+function addImg(kind,src){
+  var d=document.createElement('div');d.className='dc-m '+kind;
+  if(src){var im=document.createElement('img');im.src=src;im.alt='Foto enviada';d.appendChild(im)}else d.appendChild(document.createTextNode('Foto enviada'));
+  list.appendChild(d);list.scrollTop=list.scrollHeight;
+}
+function ldScript(src){return new Promise(function(ok,ko){var e=document.createElement('script');e.src=src;e.onload=ok;e.onerror=ko;document.head.appendChild(e)})}
+function getModel(){
+  if(!mdl)mdl=ldScript('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js').then(function(){return ldScript('https://cdn.jsdelivr.net/npm/nsfwjs@2.4.2/dist/nsfwjs.min.js')}).then(function(){return window.nsfwjs.load()});
+  return mdl;
+}
+function toCanvas(f){return new Promise(function(ok,ko){
+  var u=window.URL.createObjectURL(f),im=new Image();
+  im.onload=function(){var r=Math.min(1,1280/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);window.URL.revokeObjectURL(u);ok(c)};
+  im.onerror=function(){ko(new Error('img'))};im.src=u;
+})}
+function bad(p){var o={};p.forEach(function(x){o[x.className]=x.probability});return ((o.Porn||0)+(o.Hentai||0))>0.45||(o.Sexy||0)>0.85}
+clip.addEventListener('click',function(){fileI.click()});
+fileI.addEventListener('change',function(){
+  var f=fileI.files[0];fileI.value='';if(!f)return;
+  if(!/^image\/(jpeg|png|webp)$/.test(f.type)){add('n','Solo podemos recibir fotos JPG, PNG o WebP.');return}
+  if(f.size>15*1024*1024){add('n','La foto es muy pesada. Probá con otra.');return}
+  clip.disabled=true;var st=add('n','Revisando tu foto…'),cv,blob,n=nameI.value.trim()||null;
+  toCanvas(f).then(function(c){cv=c;return getModel().then(function(m){return m.classify(c)}).catch(function(){return null})})
+  .then(function(p){if(p&&bad(p))throw new Error('rejected');return new Promise(function(ok){cv.toBlob(ok,'image/jpeg',0.82)})})
+  .then(function(b){blob=b;if(!b||b.size>3000000)throw new Error('big');return rpc('chat_start',{p_token:token,p_name:n})})
+  .then(function(){
+    var path=token+'/'+uuid()+'.jpg';
+    return fetch(SBU+'/storage/v1/object/chat-photos/'+path,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'image/jpeg'},body:blob}).then(function(r){if(!r.ok)throw new Error('upload');return path});
+  })
+  .then(function(path){sent[path]=window.URL.createObjectURL(blob);return rpc('chat_send_photo',{p_token:token,p_name:n,p_path:path})})
+  .then(function(){started=true;nameI.style.display='none';return poll()})
+  .catch(function(e){add('n',e.message==='rejected'?'No pudimos enviar esa foto. Solo podemos recibir fotos de tu equipo.':/rate_limit|blocked|busy/.test(e.message)?'No pudimos enviar la foto ahora. Probá de nuevo más tarde.':'No pudimos enviar la foto. Probá de nuevo o escribinos por WhatsApp al 11-6257-5047.')})
+  .then(function(){st.remove();clip.disabled=false});
+});
 add('a','¡Hola! Soy Dario, de DarooCell. Contame qué necesitás y te respondo por acá.');
 btn.addEventListener('click',open);
 $('dc-close').addEventListener('click',close);
