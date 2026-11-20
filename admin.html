@@ -205,7 +205,8 @@ button{font:inherit;cursor:pointer;color:inherit}
       <div id="msgs"></div>
       <div class="comp">
         <div id="sug" hidden></div>
-        <textarea id="in" rows="1" placeholder="Respondé como Dario… (escribí / para plantillas)" aria-label="Respuesta"></textarea>
+        <button class="b2" id="battach" type="button" aria-label="Adjuntar archivo" title="Adjuntar archivo">📎</button><input id="bfile" type="file" hidden accept="image/jpeg,image/png,image/webp,application/pdf,text/plain,.docx,.xlsx">
+                <textarea id="in" rows="1" placeholder="Respondé como Dario… (escribí / para plantillas)" aria-label="Respuesta"></textarea>
         <button class="b" id="send" type="button">Enviar ➤</button>
       </div>
     </div>
@@ -370,7 +371,7 @@ function stats(){$('smsg').textContent=mc;$('sfot').textContent=pc}
 function addMsg(m){
   if(shown[m.id])return;shown[m.id]=1;mc++;if(m.image_path)pc++;stats();
   var d=document.createElement('div');d.className='m '+(m.sender==='admin'?'a':'v');
-  if(m.image_path){d.appendChild(imgBox(m))}else d.appendChild(document.createTextNode(m.body));
+  if(m.file_path){d.appendChild(fileBox(m))}else if(m.image_path){d.appendChild(imgBox(m))}else d.appendChild(document.createTextNode(m.body));
   var t=document.createElement('time');t.textContent=fmt(m.created_at);d.appendChild(t);
   $('msgs').appendChild(d);$('msgs').scrollTop=$('msgs').scrollHeight;
 }
@@ -408,9 +409,9 @@ $('bunr').onclick=function(){
 $('bdel').onclick=function(){
   if(!cur||!confirm('¿Eliminar este chat y todos sus mensajes? Las fotos también se borran.'))return;
   var id=cur;
-  sb.from('chat_messages').select('image_path').eq('conversation_id',id).not('image_path','is',null).then(function(r){
-    var paths=(r.data||[]).map(function(x){return x.image_path});
-    return (paths.length?sb.storage.from('chat-photos').remove(paths):Promise.resolve()).then(function(){
+  sb.from('chat_messages').select('image_path,file_path').eq('conversation_id',id).then(function(r){
+    var paths=(r.data||[]).map(function(x){return x.image_path}).filter(Boolean),fps=(r.data||[]).map(function(x){return x.file_path}).filter(Boolean);
+    return Promise.all([paths.length?sb.storage.from('chat-photos').remove(paths):null,fps.length?sb.storage.from('chat-files').remove(fps):null]).then(function(){
       return sb.from('chat_conversations').delete().eq('id',id);
     });
   }).then(function(r){if(r&&r.error)alert('No se pudo eliminar.');else{delete convs[id];closeConv()}});
@@ -541,6 +542,30 @@ $('tsave').onclick=function(){
     if(r.error){$('terr').textContent=/duplicate|unique/i.test(r.error.message)?'Ya existe una plantilla con ese atajo.':'No se pudo guardar. Probá de nuevo.';return}
     sb.from('chat_templates').select('*').order('shortcut').then(function(x){if(!x.error)tpls=x.data||[];endEdit()});
   });
+};
+
+/* ---------- Enviar archivos ---------- */
+function fileBox(m){
+  var u=sb.storage.from('chat-files').getPublicUrl(m.file_path).data.publicUrl,a=document.createElement('a');
+  a.href=u;a.target='_blank';a.rel='noopener';a.style.color='inherit';
+  if(/\.(jpe?g|png|webp)$/i.test(m.file_path)){var im=document.createElement('img');im.src=u;im.alt=m.file_name||'Archivo';im.style.cssText='display:block;max-width:240px;width:100%;border-radius:10px';a.appendChild(im)}
+  else{a.textContent='📎 '+(m.file_name||'Archivo');a.style.fontWeight='700';a.style.textDecoration='underline'}
+  return a;
+}
+$('battach').onclick=function(){if(cur)$('bfile').click()};
+$('bfile').onchange=function(){
+  var f=this.files[0];this.value='';if(!f||!cur)return;
+  if(f.size>10*1024*1024){alert('El archivo pesa más de 10 MB.');return}
+  if(!/\.(jpe?g|png|webp|pdf|txt|docx|xlsx)$/i.test(f.name)){alert('Formato no permitido. Podés enviar imágenes, PDF, TXT, Word o Excel.');return}
+  var safe=f.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Za-z0-9._-]+/g,'_').slice(-100);
+  var id=cur,path=crypto.randomUUID()+'/'+safe,b=$('battach');b.disabled=true;
+  sb.storage.from('chat-files').upload(path,f,{contentType:f.type||undefined,upsert:false}).then(function(r){
+    if(r.error)throw new Error('up');
+    return sb.from('chat_messages').insert({conversation_id:id,sender:'admin',body:'Archivo',file_path:path,file_name:f.name.slice(0,150)}).select().single();
+  }).then(function(r){
+    if(r.error)throw new Error('ins');
+    if(cur===id)addMsg(r.data);prev[id]=r.data;renderList();
+  }).catch(function(){alert('No se pudo enviar el archivo. Probá de nuevo.')}).then(function(){b.disabled=false});
 };
 </script>
 </body>
