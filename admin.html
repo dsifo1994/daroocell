@@ -217,6 +217,7 @@ button{font:inherit;cursor:pointer;color:inherit}
       <div class="av" id="dav"></div><b id="dname"></b><small id="dsub"></small>
       <div class="st"><div class="stb"><b id="smsg">0</b><small>mensajes</small></div><div class="stb"><b id="sfot">0</b><small>fotos</small></div></div>
     </div>
+    <div id="dctw" hidden><div class="dt">CONTACTO</div><div id="dct" style="word-break:break-all;margin-bottom:8px"></div><a class="b2 w" id="dwa" target="_blank" rel="noopener" style="text-decoration:none;justify-content:center">💬 Abrir WhatsApp</a></div>
     <div><div class="dt">NOTAS INTERNAS</div><textarea id="notes" maxlength="2000" placeholder="Ej: Samsung A32, pantalla rota. Pasa el jueves."></textarea><div id="nst"></div></div>
     <div><div class="dt">RESPUESTAS RÁPIDAS</div><div id="quick"></div></div>
     <div><div class="dt">ACCIONES</div>
@@ -309,7 +310,7 @@ function start(){
 function loadAll(){
   Promise.all([
     sb.from('chat_conversations').select('*').order('last_message_at',{ascending:false}),
-    sb.from('chat_messages').select('id,conversation_id,sender,body').order('id',{ascending:false}).limit(300)
+    sb.from('chat_messages').select('id,conversation_id,sender,body,is_auto').order('id',{ascending:false}).limit(300)
   ]).then(function(r){
     if(r[0].error||r[1].error)return;
     convs={};r[0].data.forEach(function(c){convs[c.id]=c});
@@ -340,7 +341,7 @@ function renderList(){
     var tm=document.createElement('time');tm.textContent=fmt(c.last_message_at);
     r1.appendChild(t);r1.appendChild(tm);
     var r2=document.createElement('div');r2.className='r2';
-    var pv=document.createElement('span');pv.className='pv';pv.textContent=p?((p.sender==='admin'?'Vos: ':'')+p.body):'';
+    var pv=document.createElement('span');pv.className='pv';pv.textContent=p?((p.is_auto?'Auto: ':p.sender==='admin'?'Vos: ':'')+p.body):'';
     r2.appendChild(pv);
     if(isU){var bd=document.createElement('span');bd.className='bd';bd.textContent=c.unread_admin;r2.appendChild(bd)}
     rb.appendChild(r1);rb.appendChild(r2);b.appendChild(av);b.appendChild(rb);
@@ -367,12 +368,13 @@ function imgBox(m){
   };
   return h;
 }
+function waUrl(t){var d=String(t).replace(/\D/g,'').replace(/^00/,'');if(d.length===10)d='549'+d;else if(d.length===11&&d.charAt(0)==='0')d='549'+d.slice(1);else if(d.length===12&&d.indexOf('54')===0&&d.indexOf('549')!==0)d='549'+d.slice(2);return 'https://wa.me/'+d}
 function stats(){$('smsg').textContent=mc;$('sfot').textContent=pc}
 function addMsg(m){
   if(shown[m.id])return;shown[m.id]=1;mc++;if(m.image_path)pc++;stats();
   var d=document.createElement('div');d.className='m '+(m.sender==='admin'?'a':'v');
   if(m.file_path){d.appendChild(fileBox(m))}else if(m.image_path){d.appendChild(imgBox(m))}else d.appendChild(document.createTextNode(m.body));
-  var t=document.createElement('time');t.textContent=fmt(m.created_at);d.appendChild(t);
+  var t=document.createElement('time');t.textContent=fmt(m.created_at)+(m.is_auto?' · mensaje automático':'');d.appendChild(t);
   $('msgs').appendChild(d);$('msgs').scrollTop=$('msgs').scrollHeight;
 }
 function markRead(id){
@@ -387,6 +389,7 @@ function fillDet(id){
   $('dsub').textContent='Primer mensaje: '+fmtFull(c.created_at);
   $('bblk').textContent=c.blocked?'✅ Desbloquear cliente':'🚫 Bloquear cliente';
   $('notes').value=c.notes||'';$('nst').textContent='';
+  $('dctw').hidden=!c.contact;if(c.contact){$('dct').textContent=c.contact;$('dwa').href=waUrl(c.contact)}
 }
 function openConv(id){
   cur=id;shown={};mc=0;pc=0;stats();$('msgs').textContent='';
@@ -438,7 +441,7 @@ $('notes').addEventListener('input',function(){
 /* ---------- Mensajes en vivo ---------- */
 function onMsg(m){
   if(!convs[m.conversation_id]){loadAll()}
-  prev[m.conversation_id]={id:m.id,conversation_id:m.conversation_id,sender:m.sender,body:m.body};
+  prev[m.conversation_id]={id:m.id,conversation_id:m.conversation_id,sender:m.sender,body:m.body,is_auto:m.is_auto};
   if(m.conversation_id===cur){addMsg(m);if(m.sender==='visitor')markRead(cur)}
   if(m.sender==='visitor'&&(m.conversation_id!==cur||document.hidden))alertNew(m);
   renderList();

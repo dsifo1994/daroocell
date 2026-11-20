@@ -1338,10 +1338,10 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 .dc-m.a small{display:block;font-size:.72rem;font-weight:700;opacity:.65;margin-bottom:2px}
 .dc-m.n{align-self:center;max-width:92%;background:none;font-size:.78rem;opacity:.65;text-align:center;padding:2px}
 .dc-foot{padding:12px;border-top:1px solid rgba(255,255,255,.08);background:#0B1020}
-#dc-name{width:100%;margin-bottom:8px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#111729;color:#fff;font:inherit;font-size:.88rem}
+#dc-name,#dc-contact{width:100%;margin-bottom:8px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#111729;color:#fff;font:inherit;font-size:.88rem}
 .dc-row{display:flex;gap:8px;align-items:flex-end}
 #dc-in{flex:1;resize:none;max-height:110px;padding:11px 13px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#111729;color:#fff;font:inherit;font-size:.93rem;line-height:1.35}
-#dc-name:focus,#dc-in:focus{outline:2px solid #F7B41B;outline-offset:0}
+#dc-name:focus,#dc-contact:focus,#dc-in:focus{outline:2px solid #F7B41B;outline-offset:0}
 #dc-send{width:44px;height:44px;border-radius:12px;border:0;background:#F7B41B;color:#0B1020;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 #dc-send:disabled{opacity:.5;cursor:default}
 #dc-clip{width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#111729;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}#dc-clip:hover{border-color:#F7B41B}#dc-clip:disabled{opacity:.5;cursor:default}
@@ -1361,12 +1361,13 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 <div id="dc-box" role="dialog" aria-label="Chat con Dario">
   <div class="dc-head">
     <div class="dc-av" aria-hidden="true"></div>
-    <div class="dc-t"><b>Dario</b><span>DarooCell · Te respondo por acá</span></div>
+    <div class="dc-t"><b>Dario</b><span id="dc-sub">DarooCell · Te respondo por acá</span></div>
     <button class="dc-x" id="dc-close" type="button" aria-label="Minimizar chat" title="Minimizar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
   </div>
   <div id="dc-msgs" aria-live="polite"></div>
   <div class="dc-foot">
     <input id="dc-name" type="text" maxlength="60" placeholder="Tu nombre (opcional)" autocomplete="given-name">
+    <input id="dc-contact" type="tel" maxlength="40" placeholder="Tu WhatsApp o teléfono (opcional)" autocomplete="tel">
     <div class="dc-row">
       <button id="dc-clip" type="button" aria-label="Adjuntar foto" title="Adjuntar foto"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.5l-8.6 8.6a5.5 5.5 0 0 1-7.8-7.8l9-9a3.7 3.7 0 0 1 5.2 5.2l-9 9a1.8 1.8 0 0 1-2.6-2.6l8.4-8.4"/></svg></button><input id="dc-file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
       <textarea id="dc-in" rows="1" maxlength="2000" placeholder="Escribí tu consulta…" aria-label="Mensaje"></textarea>
@@ -1380,7 +1381,7 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 var SBU='https://xmpedfrpjblabbvrqqiu.supabase.co';
 var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhtcGVkZnJwamJsYWJidnJxcWl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUxMjI2MDEsImV4cCI6MjExMDY5ODYwMX0.L482o-oh-uX-NgkP_ywKvRHIPMJeKOWyPDFu9UkyqHs';
 var $=function(i){return document.getElementById(i)};
-var btn=$('dc-btn'),box=$('dc-box'),list=$('dc-msgs'),inp=$('dc-in'),nameI=$('dc-name'),dot=$('dc-dot'),sendB=$('dc-send');
+var btn=$('dc-btn'),box=$('dc-box'),list=$('dc-msgs'),inp=$('dc-in'),nameI=$('dc-name'),contI=$('dc-contact'),dot=$('dc-dot'),sendB=$('dc-send');
 function uuid(){if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){var r=Math.random()*16|0;return(c==='x'?r:(r&3|8)).toString(16)})}
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
 var token=ls('dc_tok');if(!token){token=uuid();ls('dc_tok',token)}
@@ -1408,7 +1409,7 @@ function poll(){
       if(m.file_path){addFile(m)}else if(m.image_path){addImg(m.sender==='admin'?'a':'v',sent[m.image_path])}else add(m.sender==='admin'?'a':'v',m.body);
       if(m.sender==='admin'&&m.id>seen)unread++;
     });
-    nameI.style.display='none';
+    nameI.style.display=contI.style.display='none';
     if(isOpen()){seen=last;ls('dc_seen',String(seen));unread=0}
     badge();
   });
@@ -1419,7 +1420,7 @@ function loop(){
   timer=setTimeout(loop,isOpen()?3000:15000);
 }
 function open(){
-  box.classList.add('open');btn.style.display='none';unread=0;badge();
+  box.classList.add('open');btn.style.display='none';unread=0;badge();setSub();
   seen=last;ls('dc_seen',String(seen));
   list.scrollTop=list.scrollHeight;setTimeout(function(){inp.focus()},50);loop();
 }
@@ -1429,7 +1430,7 @@ function send(){
   var n=nameI.value.trim();sendB.disabled=true;
   var tmp=add('v',t,true);inp.value='';inp.style.height='auto';
   rpc('chat_send',{p_token:token,p_name:n||null,p_body:t}).then(function(){
-    started=true;nameI.style.display='none';
+    started=true;nameI.style.display=contI.style.display='none';setContact();
     return poll().then(function(){
       if(!noted){noted=true;add('n','Te respondo apenas pueda. Si es urgente, escribime por WhatsApp al 11-6257-5047.')}
     });
@@ -1438,6 +1439,8 @@ function send(){
     add('n',/rate_limit|busy/.test(e.message)?'Estás escribiendo muy rápido. Probá de nuevo en un minuto.':'No pudimos enviar tu mensaje. Escribinos por WhatsApp al 11-6257-5047.');
   }).then(function(){sendB.disabled=false;inp.focus()});
 }
+var ctSent=false;
+function setContact(){var c=contI.value.trim();if(!c||ctSent)return;ctSent=true;rpc('chat_set_contact',{p_token:token,p_contact:c}).catch(function(){ctSent=false})}
 var sent={},mdl=null,clip=$('dc-clip'),fileI=$('dc-file');
 function addImg(kind,src){
   var d=document.createElement('div');d.className='dc-m '+kind;
@@ -1469,10 +1472,19 @@ fileI.addEventListener('change',function(){
     return fetch(SBU+'/storage/v1/object/chat-photos/'+path,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'image/jpeg'},body:blob}).then(function(r){if(!r.ok)throw new Error('upload');return path});
   })
   .then(function(path){sent[path]=window.URL.createObjectURL(blob);return rpc('chat_send_photo',{p_token:token,p_name:n,p_path:path})})
-  .then(function(){started=true;nameI.style.display='none';return poll()})
+  .then(function(){started=true;nameI.style.display=contI.style.display='none';setContact();return poll()})
   .catch(function(e){add('n',e.message==='rejected'?'No pudimos enviar esa foto. Solo podemos recibir fotos de tu equipo.':/rate_limit|blocked|busy/.test(e.message)?'No pudimos enviar la foto ahora. Probá de nuevo más tarde.':'No pudimos enviar la foto. Probá de nuevo o escribinos por WhatsApp al 11-6257-5047.')})
   .then(function(){st.remove();clip.disabled=false});
 });
+function shopOpen(){
+  try{
+    var o={};new Intl.DateTimeFormat('en-US',{timeZone:'America/Argentina/Buenos_Aires',weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date()).forEach(function(x){o[x.type]=x.value});
+    var h=(parseInt(o.hour,10)%24)+parseInt(o.minute,10)/60;
+    if(o.weekday==='Sun')return false;if(o.weekday==='Sat')return h>=8&&h<16;return h>=8&&h<21;
+  }catch(e){return true}
+}
+function setSub(){$('dc-sub').textContent=shopOpen()?'DarooCell · Te respondo por acá':'Fuera de horario · Te respondo cuando abramos'}
+setSub();
 var FP=/^[0-9a-f-]{36}\/[A-Za-z0-9._-]{1,120}$/;
 function addFile(m){
   var d=document.createElement('div');d.className='dc-m a';
